@@ -1,8 +1,9 @@
 const sigbits = 5
 const rshift = 8 - sigbits
 
+// get reduced-space color index for a pixel
 function getColorIndex(r, g, b) {
-    return (r << (2 * sigbits)) + (g << sigbits) + b;
+  return (r << (2 * sigbits)) + (g << sigbits) + b;
 }
 
 export default class VBox {

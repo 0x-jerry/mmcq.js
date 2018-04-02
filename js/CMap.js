@@ -1,13 +1,11 @@
 import PQueue from './PQueue'
 import {
-  pv
+  naturalOrder
 } from './tool'
 
 class CMap {
   constructor() {
-    this.vboxes = new PQueue((a, b) => {
-      return pv.naturalOrder(a.vbox.count() * a.vbox.volume(), b.vbox.count() * b.vbox.volume());
-    });
+    this.vboxes = new PQueue((a, b) => naturalOrder(a.vbox.count() * a.vbox.volume(), b.vbox.count() * b.vbox.volume()));
   }
 
   push(vbox) {
@@ -55,27 +53,6 @@ class CMap {
     return pColor
   }
 
-  /**
-   * won't work yetttttttttttttttttt
-   */
-  forcebw() {
-    // XXX: won't  work yet
-    var vboxes = this.vboxes;
-    vboxes.sort(function (a, b) {
-      return pv.naturalOrder(pv.sum(a.color), pv.sum(b.color));
-    });
-
-    // force darkest color to black if everything < 5
-    var lowest = vboxes[0].color;
-    if (lowest[0] < 5 && lowest[1] < 5 && lowest[2] < 5)
-      vboxes[0].color = [0, 0, 0];
-
-    // force lightest color to white if everything > 251
-    var idx = vboxes.length - 1,
-      highest = vboxes[idx].color;
-    if (highest[0] > 251 && highest[1] > 251 && highest[2] > 251)
-      vboxes[idx].color = [255, 255, 255];
-  }
 }
 
 module.exports = CMap

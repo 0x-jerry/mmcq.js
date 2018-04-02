@@ -1,65 +1,11 @@
 import PQueue from './PQueue'
 import CMap from './CMap'
-import VBox from './VBox'
 import {
-  pv
+  getHisto,
+  naturalOrder,
+  getColorIndex,
+  vboxFromPixels,
 } from './tool'
-
-const sigbits = 5
-const rshift = 8 - sigbits
-const fractByPopulations = 0.75
-const maxIterations = 1000
-
-// get reduced-space color index for a pixel
-function getColorIndex(r, g, b) {
-  return (r << (2 * sigbits)) + (g << sigbits) + b;
-}
-
-// histo (1-d array, giving the number of pixels in
-// each quantized region of color space), or null on error
-function getHisto(pixels) {
-  const histosize = 1 << (3 * sigbits)
-
-  let histo = new Array(histosize),
-    index, rval, gval, bval;
-
-  pixels.forEach(pixel => {
-    rval = pixel[0] >> rshift;
-    gval = pixel[1] >> rshift;
-    bval = pixel[2] >> rshift;
-    index = getColorIndex(rval, gval, bval);
-    histo[index] = (histo[index] || 0) + 1;
-  })
-
-  return histo
-}
-
-function vboxFromPixels(pixels, histo) {
-  var rmin = 1000000,
-    rmax = 0,
-    gmin = 1000000,
-    gmax = 0,
-    bmin = 1000000,
-    bmax = 0,
-    rval, gval, bval;
-
-  // find min/max
-  pixels.forEach(pixel => {
-    rval = pixel[0] >> rshift;
-    gval = pixel[1] >> rshift;
-    bval = pixel[2] >> rshift;
-
-    rmin = rval < rmin ? rval : rmin
-    gmin = gval < gmin ? gval : gmin
-    bmin = bval < bmin ? bval : bmin
-
-    rmax = rval > rmax ? rval : rmax
-    gmax = gval > gmax ? gval : gmax
-    bmax = bval > bmax ? bval : bmax
-  })
-
-  return new VBox(rmin, rmax, gmin, gmax, bmin, bmax, histo)
-}
 
 class MMCQ {
 
@@ -67,7 +13,7 @@ class MMCQ {
     const rw = vbox.r2 - vbox.r1 + 1,
       gw = vbox.g2 - vbox.g1 + 1,
       bw = vbox.b2 - vbox.b1 + 1,
-      maxw = pv.max([rw, gw, bw]);
+      maxw = Math.max(rw, gw, bw)
 
     // only one pixel, no split
     if (vbox.count() == 1) {
@@ -170,17 +116,19 @@ class MMCQ {
 
     // get the beginning vbox from the colors
     const vbox = vboxFromPixels(pixels, histo)
+
     // inner function to do the iteration
     const iter = this.iter(histo)
 
-    const pq = new PQueue((a, b) => pv.naturalOrder(a.count(), b.count()));
+    const pq = new PQueue((a, b) => naturalOrder(a.count(), b.count()));
     pq.push(vbox);
 
+    const fractByPopulations = 0.75
     // first set of colors, sorted by population
     iter(pq, fractByPopulations * maxcolors);
 
     // Re-sort by the product of pixel occupancy times the size in color space.
-    const pq2 = new PQueue((a, b) => pv.naturalOrder(a.count() * a.volume(), b.count() * b.volume()))
+    const pq2 = new PQueue((a, b) => naturalOrder(a.count() * a.volume(), b.count() * b.volume()))
 
     while (pq.size()) {
       pq2.push(pq.pop())
@@ -200,6 +148,8 @@ class MMCQ {
   }
 
   iter(histo) {
+    const maxIterations = 1000
+
     return (pQueue, target) => {
       let ncolors = 1, niters = 0
       /**
