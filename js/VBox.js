@@ -1,7 +1,9 @@
-import { getColorIndex } from './tool'
-
 const sigbits = 5
 const rshift = 8 - sigbits
+
+function getColorIndex(r, g, b) {
+    return (r << (2 * sigbits)) + (g << sigbits) + b;
+}
 
 // 3d color space box
 function VBox(r1, r2, g1, g2, b1, b2, histo) {

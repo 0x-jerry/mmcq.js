@@ -1,12 +1,58 @@
 import PQueue from './PQueue'
 import CMap from './CMap'
-import { pv, getHisto, getColorIndex, vboxFromPixels } from './tool'
+import VBox from './VBox'
+import { pv } from './tool'
 
-var MMCQ = (function() {
-  const fractByPopulations = 0.75
-  const maxIterations      = 1000
+const sigbits            = 5
+const rshift             = 8 - sigbits
+const fractByPopulations = 0.75
+const maxIterations      = 1000
 
-  function medianCutApply(histo, vbox) {
+// get reduced-space color index for a pixel
+function getColorIndex(r, g, b) {
+    return (r << (2 * sigbits)) + (g << sigbits) + b;
+}
+
+// histo (1-d array, giving the number of pixels in
+// each quantized region of color space), or null on error
+function getHisto(pixels) {
+    var histosize = 1 << (3 * sigbits),
+        histo = new Array(histosize),
+        index, rval, gval, bval;
+    pixels.forEach(function(pixel) {
+        rval = pixel[0] >> rshift;
+        gval = pixel[1] >> rshift;
+        bval = pixel[2] >> rshift;
+        index = getColorIndex(rval, gval, bval);
+        histo[index] = (histo[index] || 0) + 1;
+    });
+    return histo;
+}
+
+function vboxFromPixels(pixels, histo) {
+    var rmin=1000000, rmax=0,
+        gmin=1000000, gmax=0,
+        bmin=1000000, bmax=0,
+        rval, gval, bval;
+
+    // find min/max
+    pixels.forEach(function(pixel) {
+        rval = pixel[0] >> rshift;
+        gval = pixel[1] >> rshift;
+        bval = pixel[2] >> rshift;
+        if (rval < rmin) rmin = rval;
+        else if (rval > rmax) rmax = rval;
+        if (gval < gmin) gmin = gval;
+        else if (gval > gmax) gmax = gval;
+        if (bval < bmin) bmin = bval;
+        else if (bval > bmax)  bmax = bval;
+    });
+    return new VBox(rmin, rmax, gmin, gmax, bmin, bmax, histo);
+}
+
+class MMCQ {
+
+  medianCutApply(histo, vbox) {
       if (!vbox.count()) return;
 
       var rw = vbox.r2 - vbox.r1 + 1,
@@ -96,7 +142,7 @@ var MMCQ = (function() {
           doCut('b');
   }
 
-  function quantize(pixels, maxcolors) {
+  quantize(pixels, maxcolors) {
       // short-circuit
       if (!pixels.length || maxcolors < 2 || maxcolors > 256) {
           //  console.log('wrong number of maxcolors');
@@ -120,7 +166,7 @@ var MMCQ = (function() {
       pq.push(vbox);
 
       // inner function to do the iteration
-      function iter(lh, target) {
+      const iter = (lh, target) => {
           var ncolors = 1,
               niters = 0,
               vbox;
@@ -132,7 +178,7 @@ var MMCQ = (function() {
                   continue;
               }
               // do the cut
-              var vboxes = medianCutApply(histo, vbox),
+              var vboxes = this.medianCutApply(histo, vbox),
                   vbox1 = vboxes[0],
                   vbox2 = vboxes[1];
 
@@ -176,9 +222,6 @@ var MMCQ = (function() {
       return cmap;
   }
 
-  return {
-      quantize: quantize
-  };
-});
+}
 
-module.exports = MMCQ()
+module.exports = new MMCQ()

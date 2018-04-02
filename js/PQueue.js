@@ -1,38 +1,43 @@
-// Simple priority queue
-function PQueue(comparator) {
-  var contents = [],
-    sorted = false;
-
-  function sort() {
-    contents.sort(comparator);
-    sorted = true;
+export default class PQueue {
+  constructor(comparator) {
+    this.contents = []
+    this.sorted = false
+    this.comparator = comparator
   }
 
-  return {
-    push: function (o) {
-      contents.push(o);
-      sorted = false;
-    },
-    peek: function (index) {
-      if (!sorted) sort();
-      if (index === undefined) index = contents.length - 1;
-      return contents[index];
-    },
-    pop: function () {
-      if (!sorted) sort();
-      return contents.pop();
-    },
-    size: function () {
-      return contents.length;
-    },
-    map: function (f) {
-      return contents.map(f);
-    },
-    debug: function () {
-      if (!sorted) sort();
-      return contents;
-    }
-  };
+  sort() {
+    this.contents.sort(this.comparator);
+    this.sorted = true;
+  }
+
+  push(o) {
+    this.contents.push(o);
+    this.sorted = false;
+  }
+
+  peek(index) {
+    if (!this.sorted) this.sort();
+    if (index === undefined) index = this.contents.length - 1;
+    return this.contents[index];
+  }
+
+  pop() {
+    if (!this.sorted) this.sort();
+    return this.contents.pop();
+  }
+
+  size() {
+    return this.contents.length;
+  }
+
+  map(f) {
+    return this.contents.map(f);
+  }
+
+  debug() {
+    if (!this.sorted) this.sort();
+    return this.contents;
+  }
 }
 
 module.exports = PQueue
