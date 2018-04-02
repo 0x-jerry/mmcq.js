@@ -3,13 +3,9 @@ import Color from './Color'
 export default class ColorBox {
   /**
    *
-   * @param {Color} color1
-   * @param {Color} color2
    * @param {Array.<Color>} colors
    */
-  constructor(color1, color2, colors) {
-    this.color1 = color1
-    this.color2 = color2
+  constructor(colors) {
     this.colors = colors
   }
 
@@ -31,7 +27,15 @@ export default class ColorBox {
       Math.round(b / this.colors.length)
     )
 
-    let nearColor = this.colors.find(color => Color.equal(color, avgColor))
+    return this.nearColor(avgColor)
+  }
+
+  /**
+   *
+   * @returns {Color} color
+   */
+  nearColor(Tcolor) {
+    let nearColor = this.colors.find(color => Color.equal(color, Tcolor))
     if (nearColor) return nearColor
 
     let normMin = Math.pow(255, 3), norm = normMin
@@ -39,9 +43,9 @@ export default class ColorBox {
 
     this.colors.forEach(color => {
       deltaColor = new Color(
-        Math.abs(color.r - avgColor.r),
-        Math.abs(color.g - avgColor.g),
-        Math.abs(color.b - avgColor.b)
+        Math.abs(color.r - Tcolor.r),
+        Math.abs(color.g - Tcolor.g),
+        Math.abs(color.b - Tcolor.b)
       )
       norm = deltaColor.norm()
       if(norm < normMin) {
