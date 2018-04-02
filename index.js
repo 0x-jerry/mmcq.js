@@ -1,5 +1,4 @@
 import ExImgColor from './js/ColorThief'
 
-export {
-  ExImgColor
-}
+export default ExImgColor
+

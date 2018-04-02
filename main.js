@@ -1,8 +1,8 @@
 import $ from 'jquery'
-import ColorThief from './js/ColorThief'
+import ExImgColor from './index'
 
 $(window).ready(() => {
-  let colorThief = new ColorThief()
+  let colorThief = new ExImgColor()
 
   $('img').click((e) => {
     const color = colorThief.getColor(e.currentTarget, 5)
