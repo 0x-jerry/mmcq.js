@@ -5,14 +5,19 @@ $(window).ready(() => {
   let colorThief = new ColorThief()
 
   $('img').click((e) => {
-    const colors = colorThief.getPalette(e.currentTarget, 10)
+    const color = colorThief.getColor(e.currentTarget, 5)
+    const colors = colorThief.getPalette(e.currentTarget, 4, 5)
 
-    $('.color').each((index, target) => {
+    $('.js-color').each((index, target) => {
       if(index < colors.length){
         $(target).css({
           backgroundColor: `rgb(${colors[index].join(',')})`
         })
       }
+    })
+
+    $('.js-domainColor').css({
+      backgroundColor: `rgb(${color.join(',')})`
     })
   })
 })

@@ -1,12 +1,37 @@
-const sigbits = 5
-const rshift = 8 - sigbits
-
-// get reduced-space color index for a pixel
-function getColorIndex(r, g, b) {
-  return (r << (2 * sigbits)) + (g << sigbits) + b;
-}
+import {
+  sigbits,
+  rshift,
+  getColorIndex,
+} from './Histo'
 
 export default class VBox {
+  static vboxFromPixels(pixels, histo) {
+    let rmin = 1000000,
+        rmax = 0,
+        gmin = 1000000,
+        gmax = 0,
+        bmin = 1000000,
+        bmax = 0,
+        rval, gval, bval;
+
+    // find min/max
+    pixels.forEach(pixel => {
+      rval = pixel[0] >> rshift;
+      gval = pixel[1] >> rshift;
+      bval = pixel[2] >> rshift;
+
+      rmin = rval < rmin ? rval : rmin
+      gmin = gval < gmin ? gval : gmin
+      bmin = bval < bmin ? bval : bmin
+
+      rmax = rval > rmax ? rval : rmax
+      gmax = gval > gmax ? gval : gmax
+      bmax = bval > bmax ? bval : bmax
+    })
+
+    return new VBox(rmin, rmax, gmin, gmax, bmin, bmax, histo)
+  }
+
   constructor(r1, r2, g1, g2, b1, b2, histo) {
     this.r1 = r1;
     this.r2 = r2;

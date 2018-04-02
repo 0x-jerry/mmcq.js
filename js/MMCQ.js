@@ -1,14 +1,15 @@
 import PQueue from './PQueue'
 import CMap from './CMap'
+import VBox from './VBox'
+import {
+  naturalOrder,
+} from './tool'
 import {
   getHisto,
-  naturalOrder,
   getColorIndex,
-  vboxFromPixels,
-} from './tool'
+} from './Histo'
 
 class MMCQ {
-
   medianCutApply(histo, vbox) {
     const rw = vbox.r2 - vbox.r1 + 1,
       gw = vbox.g2 - vbox.g1 + 1,
@@ -115,17 +116,14 @@ class MMCQ {
     const histo = getHisto(pixels);
 
     // get the beginning vbox from the colors
-    const vbox = vboxFromPixels(pixels, histo)
-
-    // inner function to do the iteration
-    const iter = this.iter(histo)
+    const vbox = VBox.vboxFromPixels(pixels, histo)
 
     const pq = new PQueue((a, b) => naturalOrder(a.count(), b.count()));
     pq.push(vbox);
 
     const fractByPopulations = 0.75
     // first set of colors, sorted by population
-    iter(pq, fractByPopulations * maxcolors);
+    this.iter(histo, pq, fractByPopulations * maxcolors);
 
     // Re-sort by the product of pixel occupancy times the size in color space.
     const pq2 = new PQueue((a, b) => naturalOrder(a.count() * a.volume(), b.count() * b.volume()))
@@ -133,10 +131,10 @@ class MMCQ {
     while (pq.size()) {
       pq2.push(pq.pop())
     }
-    // pq2.push(vbox)
+    pq2.push(vbox)
 
     // next set - generate the median cuts using the (npix * vol) sorting.
-    iter(pq2, maxcolors - pq2.size());
+    this.iter(histo, pq2, maxcolors - pq2.size());
 
     // calculate the actual colors
     const cmap = new CMap()
@@ -147,52 +145,50 @@ class MMCQ {
     return cmap;
   }
 
-  iter(histo) {
+  iter(histo, pQueue, target) {
     const maxIterations = 1000
 
-    return (pQueue, target) => {
-      let ncolors = 1, niters = 0
-      /**
-       * @type {VBox}
-       */
-      let vbox;
+    let ncolors = 1, niters = 0
+    /**
+     * @type {VBox}
+     */
+    let vbox;
 
-      while (niters < maxIterations) {
-        vbox = pQueue.pop();
+    while (niters < maxIterations) {
+      vbox = pQueue.pop();
 
-        if (!vbox.count()) {
-          pQueue.push(vbox);
-          niters++;
-          // if(pQueue.size()) continue;
-          continue
-        }
-
-        // do the cut
-        const vboxes = this.medianCutApply(histo, vbox)
-        const vbox1 = vboxes[0],
-          vbox2 = vboxes[1];
-
-        if (!vbox1) {
-          //  console.log("vbox1 not defined; shouldn't happen!");
-          return;
-        }
-
-        pQueue.push(vbox1);
-
-        if (vbox2) {
-          pQueue.push(vbox2);
-          ncolors++;
-        }
-
-        if (ncolors >= target)
-          return;
-
-        if (niters++ > maxIterations) {
-          //  console.log("infinite loop; perhaps too few pixels!");
-          return;
-        }
+      if (!vbox.count()) {
+        pQueue.push(vbox);
+        niters++;
+        // if(pQueue.size()) continue;
+        continue
       }
-    };
+
+      // do the cut
+      const vboxes = this.medianCutApply(histo, vbox)
+      const vbox1 = vboxes[0],
+        vbox2 = vboxes[1];
+
+      if (!vbox1) {
+        //  console.log("vbox1 not defined; shouldn't happen!");
+        return;
+      }
+
+      pQueue.push(vbox1);
+
+      if (vbox2) {
+        pQueue.push(vbox2);
+        ncolors++;
+      }
+
+      if (ncolors >= target)
+        return;
+
+      if (niters++ > maxIterations) {
+        //  console.log("infinite loop; perhaps too few pixels!");
+        return;
+      }
+    }
   }
 }
 
