@@ -31,12 +31,48 @@ export default class Color {
     return new Color(r, g, b);
   }
 
-  constructor(r, g, b) {
-    this.r = r;
-    this.g = g;
-    this.b = b;
+  /**
+   *
+   * @param {Color} color1
+   * @param {Color} color2
+   * @returns {boolean}
+   */
+  static equal(color1, color2) {
+    return color1.r === color2.r && color1.g === color2.g && color1.b === color2.b
   }
 
+  /**
+   *
+   * @param {number} r
+   * @param {number} g
+   * @param {number} b
+   */
+  constructor(r, g, b) {
+    this.r = r < 0 ? 0 : r > 255 ? 255 : r;
+    this.g = g < 0 ? 0 : g > 255 ? 255 : g;
+    this.b = b < 0 ? 0 : b > 255 ? 255 : b;
+  }
+
+  /**
+   *
+   * @returns {number}
+   */
+  norm() {
+    return +Math.sqrt(
+      Math.pow(this.r, 2) + Math.pow(this.g, 2) + Math.pow(this.b, 2)
+    ).toFixed(2)
+  }
+
+  /**
+   * @returns {Array.<number>}
+   */
+  valueOf() {
+    return [this.r, this.g, this.b]
+  }
+
+  /**
+   * @returns {string}
+   */
   toString() {
     return `${this.r}, ${this.g}, ${this.b}`
   }

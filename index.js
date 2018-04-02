@@ -2,6 +2,7 @@ let $ = require('jquery')
 
 $(window).ready(() => {
   let canvas = document.createElement('canvas')
+  canvas.style.display = 'none'
   let context = canvas.getContext('2d')
 
   document.body.appendChild(canvas);
