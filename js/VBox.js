@@ -73,7 +73,7 @@ export default class VBox {
       if (ntot) {
         this._avg = [~~(rsum / ntot), ~~(gsum / ntot), ~~(bsum / ntot)];
       } else {
-         console.log('empty box')
+        // console.log('empty box')
 
         this._avg = [~~(mult * (this.r1 + this.r2 + 1) / 2),
                      ~~(mult * (this.g1 + this.g2 + 1) / 2),

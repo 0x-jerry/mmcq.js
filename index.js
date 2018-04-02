@@ -5,7 +5,7 @@ $(window).ready(() => {
   let colorThief = new ColorThief()
 
   $('img').click((e) => {
-    const colors = colorThief.getPalette(e.currentTarget, 9)
+    const colors = colorThief.getPalette(e.currentTarget, 10)
 
     $('.color').each((index, target) => {
       if(index < colors.length){
