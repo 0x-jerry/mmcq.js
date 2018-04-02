@@ -5,9 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Extract Image Color</title>
+  <style>
+    .imgs {
+      text-align: center;
+    }
+
+    .imgs .img {
+      display: inline-block;
+      width: 360px;
+      height: 220px;
+      margin: 10px;
+      overflow: hidden;
+    }
+
+    .imgs .img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .colors {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #fff;
+      display: flex;
+    }
+
+    .color {
+      width: 10%;
+      height: 50px;
+      box-shadow: 0 0 2px #333;
+      margin: 5px;
+    }
+  </style>
 </head>
 <body>
-
+  <div class="colors">
+    <div class="color js-domainColor"></div>
+    <div class="color js-color"></div>
+    <div class="color js-color"></div>
+    <div class="color js-color"></div>
+    <div class="color js-color"></div>
+    <div class="color js-color"></div>
+    <div class="color js-color"></div>
+    <div class="color js-color"></div>
+  </div>
+  <div class="imgs">
+    <div class="img"><img src="./res/1.png" alt="test"></div>
+    <div class="img"><img src="./res/2.jpg" alt="test"></div>
+    <div class="img"><img src="./res/3.jpg" alt="test"></div>
+    <div class="img"><img src="./res/4.jpg" alt="test"></div>
+    <div class="img"><img src="./res/5.jpg" alt="test"></div>
+    <div class="img"><img src="./res/6.jpg" alt="test"></div>
+  </div>
   <script src="./index.js"></script>
 </body>
 </html>
