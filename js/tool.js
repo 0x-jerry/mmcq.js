@@ -1,8 +1,7 @@
-const sigbits = 5
-// get reduced-space color index for a pixel
-function getColorIndex(r, g, b) {
-  return (r << (2 * sigbits)) + (g << sigbits) + b;
-}
+import VBox from './VBox'
+
+const sigbits            = 5
+const rshift             = 8 - sigbits
 
 // fill out a couple protovis dependencies
 /*!
@@ -27,8 +26,50 @@ let pv = {
       return Math.max.apply(null, f ? pv.map(array, f) : array);
     }
 };
+// get reduced-space color index for a pixel
+function getColorIndex(r, g, b) {
+    return (r << (2 * sigbits)) + (g << sigbits) + b;
+}
+
+// histo (1-d array, giving the number of pixels in
+// each quantized region of color space), or null on error
+function getHisto(pixels) {
+    var histosize = 1 << (3 * sigbits),
+        histo = new Array(histosize),
+        index, rval, gval, bval;
+    pixels.forEach(function(pixel) {
+        rval = pixel[0] >> rshift;
+        gval = pixel[1] >> rshift;
+        bval = pixel[2] >> rshift;
+        index = getColorIndex(rval, gval, bval);
+        histo[index] = (histo[index] || 0) + 1;
+    });
+    return histo;
+}
+
+function vboxFromPixels(pixels, histo) {
+    var rmin=1000000, rmax=0,
+        gmin=1000000, gmax=0,
+        bmin=1000000, bmax=0,
+        rval, gval, bval;
+    // find min/max
+    pixels.forEach(function(pixel) {
+        rval = pixel[0] >> rshift;
+        gval = pixel[1] >> rshift;
+        bval = pixel[2] >> rshift;
+        if (rval < rmin) rmin = rval;
+        else if (rval > rmax) rmax = rval;
+        if (gval < gmin) gmin = gval;
+        else if (gval > gmax) gmax = gval;
+        if (bval < bmin) bmin = bval;
+        else if (bval > bmax)  bmax = bval;
+    });
+    return new VBox(rmin, rmax, gmin, gmax, bmin, bmax, histo);
+}
 
 export {
   pv,
   getColorIndex,
+  getHisto,
+  vboxFromPixels,
 }
