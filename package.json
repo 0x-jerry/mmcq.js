@@ -1,9 +1,10 @@
 {
   "name": "extract-img-color",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./build/index.js",
   "scripts": {
     "dev": "parcel index.html",
+    "prepublish": "parcel build index.js -d ./build",
     "test": "mocha --require babel-core/register ./test/**/*",
     "test:single": "mocha --require babel-core/register"
   },
