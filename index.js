@@ -1,4 +1,7 @@
 import ExtImgColor from './js/ExtImgColor';
 
-export default ExtImgColor
+const extImgColor = new ExtImgColor()
 
+if(window) window.extImgColor = extImgColor
+
+export default extImgColor

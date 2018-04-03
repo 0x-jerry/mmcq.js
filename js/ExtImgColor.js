@@ -4,6 +4,24 @@ import MMCQ from './MMCQ'
 export default class ExtImgColor {
   constructor() { }
 
+  getColorAsync(sourceImage, quality) {
+    return new Promise((resolve, reject) => {
+      let color = this.getColor(sourceImage, quality)
+
+      if(color) resolve(color)
+      else reject(color)
+    })
+  }
+
+  getPaletteAsync(sourceImage, colorCount, quality) {
+    return new Promise((resolve, reject) => {
+      let palette = this.getPalette(sourceImage,colorCount,quality)
+
+      if(palette) resolve(palette)
+      else reject(palette)
+    })
+  }
+
   getColor(sourceImage, quality) {
     const palette = this.getPalette(sourceImage, 5, quality);
     return palette[0];
