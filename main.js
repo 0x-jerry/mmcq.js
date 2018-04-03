@@ -1,12 +1,15 @@
 import $ from 'jquery'
-import ExImgColor from './index'
+import ExtImgColor from './index'
+
+const a = require('./build/index')
 
 $(window).ready(() => {
-  let colorThief = new ExImgColor()
+  window.a = a
+  let extImgColor = new ExtImgColor()
 
   $('img').click((e) => {
-    const color = colorThief.getColor(e.currentTarget, 5)
-    const colors = colorThief.getPalette(e.currentTarget, 4, 5)
+    const color = extImgColor.getColor(e.currentTarget, 5)
+    const colors = extImgColor.getPalette(e.currentTarget, 4, 5)
 
     $('.js-color').each((index, target) => {
       if(index < colors.length){

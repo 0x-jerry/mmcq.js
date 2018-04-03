@@ -1,30 +1,30 @@
 import CanvasImage from './CanvasImage'
 import MMCQ from './MMCQ'
 
-export default class ColorThief {
+export default class ExtImgColor {
   constructor() { }
 
   getColor(sourceImage, quality) {
-    var palette = this.getPalette(sourceImage, 5, quality);
-    var dominantColor = palette[0];
-    return dominantColor;
+    const palette = this.getPalette(sourceImage, 5, quality);
+    return palette[0];
   }
 
   getPalette(sourceImage, colorCount, quality) {
-    if (typeof colorCount === 'undefined' || colorCount < 2 || colorCount > 256) {
+    if (typeof colorCount !== 'number' || colorCount < 2 || colorCount > 256) {
       colorCount = 10;
     }
-    if (typeof quality === 'undefined' || quality < 1) {
+    if (typeof quality !== 'number' || quality < 1) {
       quality = 10;
     }
+
     // Create custom CanvasImage object
-    var image = new CanvasImage(sourceImage);
-    var imageData = image.getImageData();
-    var pixels = imageData.data;
-    var pixelCount = image.getPixelCount();
+    const image = new CanvasImage(sourceImage);
+    const imageData = image.getImageData();
+    const pixels = imageData.data;
+    const pixelCount = image.getPixelCount();
     // Store the RGB values in an array format suitable for quantize function
-    var pixelArray = [];
-    for (var i = 0, offset, r, g, b, a; i < pixelCount; i = i + quality) {
+    const pixelArray = [];
+    for (let i = 0, offset, r, g, b, a; i < pixelCount; i = i + quality) {
       offset = i * 4;
       r = pixels[offset + 0];
       g = pixels[offset + 1];
@@ -37,10 +37,11 @@ export default class ColorThief {
         }
       }
     }
+
     // Send array to quantize function which clusters values
     // using median cut algorithm
-    var cmap = MMCQ.quantize(pixelArray, colorCount);
-    var palette = cmap ? cmap.palette() : null;
+    const cmap = MMCQ.quantize(pixelArray, colorCount);
+    const palette = cmap ? cmap.palette() : null;
     // Clean up
     image.removeCanvas();
     return palette;
