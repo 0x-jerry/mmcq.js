@@ -5,12 +5,21 @@ const source = require('vinyl-source-stream')
 const buffer = require('vinyl-buffer')
 const shelljs = require('shelljs')
 const babelify = require('babelify')
+const babel = require('gulp-babel')
 
-gulp.task('bundle:js', () => {
+gulp.task('clean', () =>{
   shelljs.rm(Path.join(__dirname, 'build', '*'))
+})
 
+gulp.task('bundle:node', () => {
+  gulp.src(Path.join(__dirname, 'js', '*'))
+      .pipe(babel())
+      .pipe(gulp.dest(Path.join(__dirname, 'build')))
+})
+
+gulp.task('bundle:browser', () => {
   browserify({
-    entries: Path.join(__dirname, 'index.js'),
+    entries: Path.join(__dirname, 'browser.js'),
   })
     .transform(babelify)
     .bundle()
@@ -18,3 +27,5 @@ gulp.task('bundle:js', () => {
     .pipe(buffer())
     .pipe(gulp.dest(Path.join(__dirname, 'build')))
 })
+
+gulp.task('build', ['clean', 'bundle:node', 'bundle:browser'])

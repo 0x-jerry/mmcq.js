@@ -1,7 +1,9 @@
 import $ from 'jquery'
-import extImgColor from './index'
+import ExtImgColor from './js/ExtImgColor'
 
 $(window).ready(() => {
+  const extImgColor = new ExtImgColor()
+
   $('img').click((e) => {
     extImgColor
       .getPaletteAsync(e.currentTarget, 7, 6)

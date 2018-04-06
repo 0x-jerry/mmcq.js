@@ -1,7 +1,3 @@
-import ExtImgColor from './js/ExtImgColor';
+const ExtImgColor = require('./build/ExtImgColor').default
 
-const extImgColor = new ExtImgColor()
-
-if(window) window.extImgColor = extImgColor
-
-export default extImgColor
+module.exports = ExtImgColor
