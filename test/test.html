@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,6 +23,7 @@
       object-fit: cover;
       object-position: center;
     }
+
     .colors {
       position: fixed;
       top: 0;
@@ -37,8 +39,10 @@
       box-shadow: 0 0 2px #333;
       margin: 5px;
     }
+
   </style>
 </head>
+
 <body>
   <div class="colors">
     <div class="color js-color"></div>
@@ -59,9 +63,13 @@
     <div class="img"><img src="../res/5.jpg" alt="test"></div>
     <div class="img"><img src="../res/6.jpg" alt="test"></div>
   </div>
-  <script src="../build/extImgColor.min.js"></script>
+  <script src="../dist/ExtImgColor-window.js"></script>
   <script>
-    console.log(extImgColor)
+    const extImgColor = new ExtImgColor.default();
+
+    console.log('test getPalette function', typeof extImgColor.getPalette === 'function')
+
   </script>
 </body>
+
 </html>

@@ -1,3 +1,3 @@
-const ExtImgColor = require('./build/ExtImgColor').default
+const ExtImgColor = require('./dist/ExtImgColor-node');
 
 module.exports = ExtImgColor
