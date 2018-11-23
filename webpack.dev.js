@@ -14,7 +14,6 @@ module.exports = merge(baseConfig, {
       sPath.join(__dirname, 'index.ts'),
     ],
     compress: true,
-    port: process.env.PORT,
     hot: true,
     watchContentBase: true,
   },

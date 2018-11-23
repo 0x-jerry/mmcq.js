@@ -152,3 +152,5 @@ class MMCQ {
     return this.volumes.map(v => v.color).slice(0, length);
   }
 }
+
+export default MMCQ;
