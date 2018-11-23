@@ -17,19 +17,19 @@ class Color {
     this.a = Math.round(a);
   }
 
-  get hex(): String {
+  get hex(): string {
     return '#' + this.toString(true);
   }
 
-  get rgb(): String {
+  get rgb(): string {
     return `rgb(${this.r}, ${this.g}, ${this.b})`;
   }
 
-  get rgba(): String {
+  get rgba(): string {
     return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.a})`;
   }
 
-  toString(alpha: Boolean = false): String {
+  toString(alpha: Boolean = false): string {
     return (
       this.r.toString(16) +
       this.g.toString(16) +
@@ -47,8 +47,12 @@ class ColorVolume {
   colors: Color[] = null;
 
   constructor(colors: Color[]) {
-    this.colors = colors.filter(color => {
+    this.colors = colors.filter((color) => {
       if (color.a < 125) {
+        return false;
+      }
+
+      if (color.r < 10 && color.g < 10 && color.b < 10) {
         return false;
       }
 
@@ -62,7 +66,7 @@ class ColorVolume {
 
   get color(): Color {
     const avg = new Color();
-    this.colors.forEach(color => {
+    this.colors.forEach((color) => {
       avg.r += color.r;
       avg.g += color.g;
       avg.b += color.b;
@@ -81,8 +85,8 @@ class ColorVolume {
 
     const dimensions = ['r', 'g', 'b'];
 
-    this.colors.forEach(color => {
-      dimensions.forEach(d => {
+    this.colors.forEach((color) => {
+      dimensions.forEach((d) => {
         max[d] = Math.max(max[d], color[d]);
         min[d] = Math.min(min[d], color[d]);
       });
@@ -100,7 +104,7 @@ class ColorVolume {
       dimension,
       value: max[dimension] - min[dimension],
       max,
-      min
+      min,
     };
   }
 
@@ -110,7 +114,7 @@ class ColorVolume {
     const right: Color[] = [];
     const middle = value / 2;
 
-    this.colors.forEach(color => {
+    this.colors.forEach((color) => {
       if (color[dimension] > middle) {
         right.push(color);
       } else {
@@ -120,7 +124,7 @@ class ColorVolume {
 
     return {
       right: new ColorVolume(right),
-      left: new ColorVolume(left)
+      left: new ColorVolume(left),
     };
   }
 }
@@ -130,6 +134,8 @@ class MMCQ {
   volumes: ColorVolume[] = [];
   volume: ColorVolume = null;
 
+  static maxTime = 15;
+
   constructor(colors: Color[]) {
     this.colors = colors;
     this.volume = new ColorVolume(colors);
@@ -137,20 +143,26 @@ class MMCQ {
   }
 
   getPalette(length): Color[] {
+    let count = 1;
+
     while (this.volumes.length < length) {
       const newVolumes: ColorVolume[] = [];
 
-      this.volumes.forEach(volume => {
+      this.volumes.forEach((volume) => {
         const { left, right } = volume.cutWidthDimension();
         if (left.length !== 0) newVolumes.push(left);
         if (right.length !== 0) newVolumes.push(right);
       });
 
+      if (count++ > MMCQ.maxTime) {
+        break;
+      }
+
       this.volumes = newVolumes.sort((a, b) => b.length - a.length);
     }
 
-    return this.volumes.map(v => v.color).slice(0, length);
+    return this.volumes.map((v) => v.color).slice(0, length);
   }
 }
 
-export default MMCQ;
+export { MMCQ as default, Color };
