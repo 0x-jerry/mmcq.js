@@ -4,9 +4,9 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const sPath = require('path');
 
 module.exports = merge(baseConfig, {
-  entry: sPath.join(__dirname, 'src', 'comment.ts'),
+  entry: sPath.join(__dirname, 'index.ts'),
   output: {
-    library: 'ColorPalette',
+    path: sPath.join(__dirname, 'dist'),
   },
   plugins: [new CleanWebpackPlugin([sPath.join(__dirname, 'dist')])],
 });
