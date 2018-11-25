@@ -8,16 +8,15 @@ elements.forEach((element) => {
   });
 });
 
-function delWidthImage(img: HTMLImageElement, quality: number = 0.8) {
-  const canvas: HTMLCanvasElement = document.createElement('canvas');
+const canvas: HTMLCanvasElement = document.createElement('canvas');
+canvas.style.display = 'none';
 
-  canvas.width = img.naturalWidth * quality;
-  canvas.height = img.naturalHeight * quality;
-  canvas.style.display = 'none';
-
-  document.body.append(canvas);
-
+document.body.append(canvas);
+function delWidthImage(img: HTMLImageElement, quality: number = 1.5) {
   const ctx = canvas.getContext('2d');
+
+  canvas.width = img.width * quality;
+  canvas.height = img.height * quality;
 
   ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
@@ -26,14 +25,7 @@ function delWidthImage(img: HTMLImageElement, quality: number = 0.8) {
   const pixels: Color[] = [];
 
   for (let i = 0; i < data.length; i += 4) {
-    pixels.push(
-      new Color(
-        data[i * 4 + 0],
-        data[i * 4 + 1],
-        data[i * 4 + 2],
-        data[i * 4 + 3],
-      ),
-    );
+    pixels.push(new Color(data[i * 4 + 0], data[i * 4 + 1], data[i * 4 + 2]));
   }
 
   const mmcq = new MMCQ(pixels);
@@ -46,6 +38,4 @@ function delWidthImage(img: HTMLImageElement, quality: number = 0.8) {
   document.querySelectorAll('.js-color').forEach((el, i) => {
     if (colors[i]) (el as HTMLDivElement).style.backgroundColor = colors[i].rgb;
   });
-
-  canvas.remove();
 }

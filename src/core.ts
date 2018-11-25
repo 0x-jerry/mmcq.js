@@ -2,7 +2,6 @@ interface IColor {
   r: number;
   g: number;
   b: number;
-  a: number;
 }
 
 interface IPixel {
@@ -14,9 +13,8 @@ class Color implements IColor {
   private _r: number;
   private _g: number;
   private _b: number;
-  private _a: number;
 
-  static bit: number = 5;
+  static bit: number = 8;
 
   static compose(color: IColor): number {
     return (color.r << (2 * Color.bit)) + (color.g << Color.bit) + color.b;
@@ -40,10 +38,6 @@ class Color implements IColor {
     this._b = Math.round(v);
   }
 
-  public set a(v: number) {
-    this._a = Math.round(v);
-  }
-
   public get r(): number {
     return this._r;
   }
@@ -56,36 +50,22 @@ class Color implements IColor {
     return this._b;
   }
 
-  public get a(): number {
-    return this._a;
-  }
-
-  constructor(r: number = 0, g: number = 0, b: number = 0, a: number = 255) {
+  constructor(r: number = 0, g: number = 0, b: number = 0) {
     this.r = r;
     this.g = g;
     this.b = b;
-    this.a = a;
   }
 
   get hex(): string {
-    return '#' + this.toString(true);
+    return '#' + this.toString();
   }
 
   get rgb(): string {
     return `rgb(${this._r}, ${this._g}, ${this._b})`;
   }
 
-  get rgba(): string {
-    return `rgba(${this._r}, ${this._g}, ${this._b}, ${this._a})`;
-  }
-
-  toString(alpha: Boolean = false): string {
-    return (
-      this._r.toString(16) +
-      this._g.toString(16) +
-      this._b.toString(16) +
-      (alpha ? this._a.toString(16) : '')
-    );
+  toString(): string {
+    return this._r.toString(16) + this._g.toString(16) + this._b.toString(16);
   }
 
   delta(color: IColor): number {
@@ -127,11 +107,9 @@ class ColorVolume {
   }
 
   private iterPixels(func: (IPixel) => void) {
-    for (const key in this.pixels) {
-      if (this.pixels.hasOwnProperty(key)) {
-        func(this.pixels[key]);
-      }
-    }
+    Object.keys(this.pixels).forEach((key) => {
+      func(this.pixels[key]);
+    });
   }
 
   private filterColor(color) {
@@ -154,8 +132,8 @@ class ColorVolume {
     return this._length;
   }
 
-  get color(): Color {
-    const avg: IColor = { r: 0, g: 0, b: 0, a: 0 };
+  mainColor(): Color {
+    const avg: IColor = { r: 0, g: 0, b: 0 };
     const similar: Color = new Color();
 
     this.iterPixels((pixel) => {
@@ -177,7 +155,6 @@ class ColorVolume {
         similar.r = pixel.color.r;
         similar.g = pixel.color.g;
         similar.b = pixel.color.b;
-        similar.a = pixel.color.a;
         delta = curDelta;
       }
     });
@@ -226,7 +203,7 @@ class ColorVolume {
     const right: IPixelCount = { length: 0, pixels: [] };
     const middle = value / 2;
 
-    this.pixels.forEach((pixel) => {
+    this.iterPixels((pixel) => {
       if (pixel.color[dimension] > middle) {
         right.length += pixel.num;
         right.pixels.push(pixel);
@@ -263,21 +240,19 @@ class MMCQ {
 
         if (left.length !== 0) newVolumes.push(left);
         if (right.length !== 0) newVolumes.push(right);
-        if (newVolumes.length >= length) {
-          break;
-        }
       }
 
       this.volumes = newVolumes.sort((a, b) => b.length - a.length);
 
       if (lastLength === this.volumes.length) {
+        console.warn('too small pixels');
         break;
       } else {
         lastLength = this.volumes.length;
       }
     }
 
-    return this.volumes.map((v) => v.color).slice(0, length);
+    return this.volumes.map((v) => v.mainColor()).slice(0, length);
   }
 }
 
