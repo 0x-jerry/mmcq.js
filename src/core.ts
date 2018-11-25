@@ -14,7 +14,7 @@ class Color implements IColor {
   private _g: number;
   private _b: number;
 
-  static bit: number = 8;
+  static bit: number = 5;
 
   static compose(color: IColor): number {
     return (color.r << (2 * Color.bit)) + (color.g << Color.bit) + color.b;
@@ -209,7 +209,7 @@ class MMCQ {
     this.volumes = [volume];
   }
 
-  getPalette(length): Color[] {
+  getPalette(length: number): Color[] {
     let lastLength = 0;
 
     while (this.volumes.length < length) {
