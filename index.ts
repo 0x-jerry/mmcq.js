@@ -8,11 +8,11 @@ elements.forEach((element) => {
   });
 });
 
-function delWidthImage(img: HTMLImageElement) {
+function delWidthImage(img: HTMLImageElement, quality: number = 0.8) {
   const canvas: HTMLCanvasElement = document.createElement('canvas');
 
-  canvas.width = 1000;
-  canvas.height = 500;
+  canvas.width = img.naturalWidth * quality;
+  canvas.height = img.naturalHeight * quality;
   canvas.style.display = 'none';
 
   document.body.append(canvas);
@@ -37,8 +37,11 @@ function delWidthImage(img: HTMLImageElement) {
   }
 
   const mmcq = new MMCQ(pixels);
+  window['mmcq'] = mmcq;
 
+  console.time('mmcq');
   const colors = mmcq.getPalette(8);
+  console.timeEnd('mmcq');
 
   document.querySelectorAll('.js-color').forEach((el, i) => {
     if (colors[i]) (el as HTMLDivElement).style.backgroundColor = colors[i].rgb;

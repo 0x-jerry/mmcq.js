@@ -1,20 +1,70 @@
-class Color {
+interface IColor {
   r: number;
   g: number;
   b: number;
   a: number;
+}
 
-  static bit: number = 3;
+interface IPixel {
+  num: number;
+  color: Color;
+}
 
-  static compose(color: Color): number {
+class Color implements IColor {
+  private _r: number;
+  private _g: number;
+  private _b: number;
+  private _a: number;
+
+  static bit: number = 5;
+
+  static compose(color: IColor): number {
     return (color.r << (2 * Color.bit)) + (color.g << Color.bit) + color.b;
   }
 
+  static delta(c1: IColor, c2: IColor): number {
+    return (
+      Math.abs(c1.r - c1.r) + Math.abs(c1.g - c2.g) + Math.abs(c1.b - c2.b)
+    );
+  }
+
+  public set r(v: number) {
+    this._r = Math.round(v);
+  }
+
+  public set g(v: number) {
+    this._g = Math.round(v);
+  }
+
+  public set b(v: number) {
+    this._b = Math.round(v);
+  }
+
+  public set a(v: number) {
+    this._a = Math.round(v);
+  }
+
+  public get r(): number {
+    return this._r;
+  }
+
+  public get g(): number {
+    return this._g;
+  }
+
+  public get b(): number {
+    return this._b;
+  }
+
+  public get a(): number {
+    return this._a;
+  }
+
   constructor(r: number = 0, g: number = 0, b: number = 0, a: number = 255) {
-    this.r = Math.round(r);
-    this.g = Math.round(g);
-    this.b = Math.round(b);
-    this.a = Math.round(a);
+    this.r = r;
+    this.g = g;
+    this.b = b;
+    this.a = a;
   }
 
   get hex(): string {
@@ -22,20 +72,24 @@ class Color {
   }
 
   get rgb(): string {
-    return `rgb(${this.r}, ${this.g}, ${this.b})`;
+    return `rgb(${this._r}, ${this._g}, ${this._b})`;
   }
 
   get rgba(): string {
-    return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.a})`;
+    return `rgba(${this._r}, ${this._g}, ${this._b}, ${this._a})`;
   }
 
   toString(alpha: Boolean = false): string {
     return (
-      this.r.toString(16) +
-      this.g.toString(16) +
-      this.b.toString(16) +
-      (alpha ? this.a.toString(16) : '')
+      this._r.toString(16) +
+      this._g.toString(16) +
+      this._b.toString(16) +
+      (alpha ? this._a.toString(16) : '')
     );
+  }
+
+  delta(color: IColor): number {
+    return Color.delta(this, color);
   }
 
   get compose(): number {
@@ -44,38 +98,91 @@ class Color {
 }
 
 class ColorVolume {
-  colors: Color[] = null;
+  private pixels: IPixel[] = [];
+  private _length: number = 0;
 
-  constructor(colors: Color[]) {
-    this.colors = colors.filter((color) => {
-      if (color.a < 125) {
-        return false;
+  constructor(pixels?: IPixel[], length?: number) {
+    if (!pixels) return;
+
+    this.pixels = pixels;
+    this._length = length;
+  }
+
+  fromColors(colors: Color[]): ColorVolume {
+    if (!colors) return;
+    this._length = colors.length;
+
+    colors.filter(this.filterColor).forEach((color) => {
+      const index = color.compose;
+      const pixel = this.pixels[index];
+
+      if (pixel) {
+        pixel.num += 1;
+      } else {
+        this.pixels[index] = { num: 1, color };
       }
-
-      if (color.r < 10 && color.g < 10 && color.b < 10) {
-        return false;
-      }
-
-      return true;
     });
+
+    return this;
+  }
+
+  private iterPixels(func: (IPixel) => void) {
+    for (const key in this.pixels) {
+      if (this.pixels.hasOwnProperty(key)) {
+        func(this.pixels[key]);
+      }
+    }
+  }
+
+  private filterColor(color) {
+    if (color.a < 125) {
+      return false;
+    }
+
+    if (color.r < 10 && color.g < 10 && color.b < 10) {
+      return false;
+    }
+
+    if (color.r > 250 && color.g > 250 && color.b > 250) {
+      return false;
+    }
+
+    return true;
   }
 
   get length() {
-    return this.colors.length;
+    return this._length;
   }
 
   get color(): Color {
-    const avg = new Color();
-    this.colors.forEach((color) => {
-      avg.r += color.r;
-      avg.g += color.g;
-      avg.b += color.b;
+    const avg: IColor = { r: 0, g: 0, b: 0, a: 0 };
+    const similar: Color = new Color();
+
+    this.iterPixels((pixel) => {
+      avg.r += pixel.num * pixel.color.r;
+      avg.g += pixel.num * pixel.color.g;
+      avg.b += pixel.num * pixel.color.b;
     });
 
     avg.r = avg.r / this.length;
     avg.g = avg.g / this.length;
     avg.b = avg.b / this.length;
-    return avg;
+
+    let delta = 255 * 3;
+
+    this.iterPixels((pixel) => {
+      const curDelta = Color.delta(avg, pixel.color);
+
+      if (curDelta < delta) {
+        similar.r = pixel.color.r;
+        similar.g = pixel.color.g;
+        similar.b = pixel.color.b;
+        similar.a = pixel.color.a;
+        delta = curDelta;
+      }
+    });
+
+    return similar;
   }
 
   private deltaDimension() {
@@ -85,10 +192,10 @@ class ColorVolume {
 
     const dimensions = ['r', 'g', 'b'];
 
-    this.colors.forEach((color) => {
+    this.iterPixels((pixel) => {
       dimensions.forEach((d) => {
-        max[d] = Math.max(max[d], color[d]);
-        min[d] = Math.min(min[d], color[d]);
+        max[d] = Math.max(max[d], pixel.color[d]);
+        min[d] = Math.min(min[d], pixel.color[d]);
       });
     });
 
@@ -109,56 +216,65 @@ class ColorVolume {
   }
 
   cutWidthDimension() {
+    interface IPixelCount {
+      length: number;
+      pixels: IPixel[];
+    }
+
     const { dimension, value } = this.deltaDimension();
-    const left: Color[] = [];
-    const right: Color[] = [];
+    const left: IPixelCount = { length: 0, pixels: [] };
+    const right: IPixelCount = { length: 0, pixels: [] };
     const middle = value / 2;
 
-    this.colors.forEach((color) => {
-      if (color[dimension] > middle) {
-        right.push(color);
+    this.pixels.forEach((pixel) => {
+      if (pixel.color[dimension] > middle) {
+        right.length += pixel.num;
+        right.pixels.push(pixel);
       } else {
-        left.push(color);
+        left.length += pixel.num;
+        left.pixels.push(pixel);
       }
     });
 
     return {
-      right: new ColorVolume(right),
-      left: new ColorVolume(left),
+      right: new ColorVolume(right.pixels, right.length),
+      left: new ColorVolume(left.pixels, left.length),
     };
   }
 }
 
 class MMCQ {
-  colors: Color[] = null;
-  volumes: ColorVolume[] = [];
-  volume: ColorVolume = null;
-
-  static maxTime = 15;
+  private volumes: ColorVolume[] = [];
 
   constructor(colors: Color[]) {
-    this.colors = colors;
-    this.volume = new ColorVolume(colors);
-    this.volumes = [this.volume];
+    const volume = new ColorVolume().fromColors(colors);
+    this.volumes = [volume];
   }
 
   getPalette(length): Color[] {
-    let count = 1;
+    let lastLength = 0;
 
-    while (this.volumes.length < length) {
+    while (this.volumes.length <= length) {
       const newVolumes: ColorVolume[] = [];
 
-      this.volumes.forEach((volume) => {
+      for (let i = 0, max = this.volumes.length; i < max; i++) {
+        const volume = this.volumes[i];
         const { left, right } = volume.cutWidthDimension();
+
         if (left.length !== 0) newVolumes.push(left);
         if (right.length !== 0) newVolumes.push(right);
-      });
-
-      if (count++ > MMCQ.maxTime) {
-        break;
+        if (newVolumes.length >= length) {
+          break;
+        }
       }
 
       this.volumes = newVolumes.sort((a, b) => b.length - a.length);
+
+      if (lastLength === this.volumes.length) {
+        break;
+      } else {
+        lastLength = this.volumes.length;
+      }
     }
 
     return this.volumes.map((v) => v.color).slice(0, length);
