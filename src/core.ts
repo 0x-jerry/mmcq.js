@@ -92,7 +92,7 @@ class ColorVolume {
     if (!colors) return;
     this._length = colors.length;
 
-    colors.filter(this.filterColor).forEach((color) => {
+    colors.forEach((color) => {
       const index = color.compose;
       const pixel = this.pixels[index];
 
@@ -110,22 +110,6 @@ class ColorVolume {
     Object.keys(this.pixels).forEach((key) => {
       func(this.pixels[key]);
     });
-  }
-
-  private filterColor(color) {
-    if (color.a < 125) {
-      return false;
-    }
-
-    if (color.r < 10 && color.g < 10 && color.b < 10) {
-      return false;
-    }
-
-    if (color.r > 250 && color.g > 250 && color.b > 250) {
-      return false;
-    }
-
-    return true;
   }
 
   get length() {
