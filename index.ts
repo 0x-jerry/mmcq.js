@@ -9,10 +9,10 @@ elements.forEach((element) => {
 });
 
 const canvas: HTMLCanvasElement = document.createElement('canvas');
-canvas.style.display = 'none';
+// canvas.style.display = 'none';
 
 document.body.append(canvas);
-function delWidthImage(img: HTMLImageElement, quality: number = 1.5) {
+function delWidthImage(img: HTMLImageElement, quality: number = 1) {
   const ctx = canvas.getContext('2d');
 
   canvas.width = img.width * quality;
@@ -24,8 +24,9 @@ function delWidthImage(img: HTMLImageElement, quality: number = 1.5) {
 
   const pixels: Color[] = [];
 
-  for (let i = 0; i < data.length; i += 4) {
-    pixels.push(new Color(data[i * 4 + 0], data[i * 4 + 1], data[i * 4 + 2]));
+  for (let i = 0, max = data.length; i < max; i += 4) {
+    const color = new Color(data[i + 0], data[i + 1], data[i + 2]);
+    pixels.push(color);
   }
 
   const mmcq = new MMCQ(pixels);

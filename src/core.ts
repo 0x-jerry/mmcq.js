@@ -170,9 +170,7 @@ class ColorVolume {
 
     return {
       dimension,
-      value: max[dimension] - min[dimension],
-      max,
-      min,
+      middle: (max[dimension] + min[dimension]) / 2,
     };
   }
 
@@ -182,10 +180,9 @@ class ColorVolume {
       pixels: IPixel[];
     }
 
-    const { dimension, value } = this.deltaDimension();
+    const { dimension, middle } = this.deltaDimension();
     const left: IPixelCount = { length: 0, pixels: [] };
     const right: IPixelCount = { length: 0, pixels: [] };
-    const middle = value / 2;
 
     this.iterPixels((pixel) => {
       if (pixel.color[dimension] > middle) {
@@ -215,7 +212,7 @@ class MMCQ {
   getPalette(length): Color[] {
     let lastLength = 0;
 
-    while (this.volumes.length <= length) {
+    while (this.volumes.length < length) {
       const newVolumes: ColorVolume[] = [];
 
       for (let i = 0, max = this.volumes.length; i < max; i++) {
