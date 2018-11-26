@@ -1,6 +1,6 @@
 {
-  "name": "color-palette",
-  "version": "1.0.8",
+  "name": "img-color-palette",
+  "version": "0.1.0",
   "main": "dist/lib.js",
   "scripts": {
     "dev": "webpack-dev-server --config ./webpack.dev.js --mode development",
