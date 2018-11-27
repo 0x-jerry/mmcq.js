@@ -1,5 +1,5 @@
 static/
-src/
+dist/index.js
 index.html
 index.ts
 webpack.*.js
