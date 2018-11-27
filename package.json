@@ -1,10 +1,11 @@
 {
   "name": "img-color-palette",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "dist/lib.js",
   "scripts": {
     "dev": "webpack-dev-server --config ./webpack.dev.js --mode development",
-    "build": "webpack --config ./webpack.prod.js --mode production"
+    "build": "webpack --config ./webpack.prod.js --mode production",
+    "prepublish": "npm run build"
   },
   "repository": "https://github.com/cwxyz007/color-palette.git",
   "author": "cwxyz <jie844067636@gmail.com>",
