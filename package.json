@@ -1,7 +1,8 @@
 {
   "name": "img-color-palette",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": "dist/lib.js",
+  "typings": "types/index.d.ts",
   "scripts": {
     "dev": "webpack-dev-server --config ./webpack.dev.js --mode development",
     "build": "webpack --config ./webpack.prod.js --mode production",
