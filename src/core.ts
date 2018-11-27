@@ -1,3 +1,5 @@
+import { getImageData } from './utils';
+
 interface IColor {
   r: number;
   g: number;
@@ -9,7 +11,7 @@ interface IPixel {
   color: Color;
 }
 
-class Color implements IColor {
+export class Color implements IColor {
   private _r: number;
   private _g: number;
   private _b: number;
@@ -204,12 +206,32 @@ class ColorVolume {
 class MMCQ {
   private volumes: ColorVolume[] = [];
 
-  constructor(colors: Color[]) {
-    const volume = new ColorVolume().fromColors(colors);
+  /**
+   *
+   * @param img
+   * @param imageQuality 0.1 - 1
+   */
+  constructor(img: HTMLImageElement, imageQuality: number = 0.5) {
+    const data = getImageData(img, imageQuality);
+    const pixels: Color[] = [];
+
+    for (let i = 0, max = data.length; i < max; i += 4) {
+      const color = new Color(data[i + 0], data[i + 1], data[i + 2]);
+      pixels.push(color);
+    }
+
+    const volume = new ColorVolume().fromColors(pixels);
     this.volumes = [volume];
   }
 
-  getPalette(length: number): Color[] {
+  /**
+   *
+   * @param length 1 - 254
+   * @param quality 1 - 8
+   */
+  getPalette(length: number, quality: number = 5): Color[] {
+    Color.bit = quality;
+
     let lastLength = 0;
 
     while (this.volumes.length < length) {
@@ -237,4 +259,23 @@ class MMCQ {
   }
 }
 
-export { MMCQ as default, Color };
+export interface IQuality {
+  /**
+   * 0.1 -1
+   */
+  image: number;
+  /**
+   * 0.1 -1
+   */
+  algorithm: number;
+}
+
+function getPalette(
+  img: HTMLImageElement,
+  length: number,
+  quality: IQuality,
+): Color[] {
+  return new MMCQ(img, quality.image).getPalette(length, quality.algorithm);
+}
+
+export default getPalette;
