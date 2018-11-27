@@ -1,4 +1,7 @@
 static/
 src/
-index.*
-webpack.*
+index.html
+index.ts
+webpack.*.js
+**/.*
+tsconfig.json
