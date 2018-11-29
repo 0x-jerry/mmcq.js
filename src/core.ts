@@ -12,9 +12,9 @@ interface IPixel {
 }
 
 export class Color implements IColor {
-  private _r: number;
-  private _g: number;
-  private _b: number;
+  r: number;
+  g: number;
+  b: number;
 
   static bit: number = 5;
 
@@ -28,30 +28,6 @@ export class Color implements IColor {
     );
   }
 
-  public set r(v: number) {
-    this._r = Math.round(v);
-  }
-
-  public set g(v: number) {
-    this._g = Math.round(v);
-  }
-
-  public set b(v: number) {
-    this._b = Math.round(v);
-  }
-
-  public get r(): number {
-    return this._r;
-  }
-
-  public get g(): number {
-    return this._g;
-  }
-
-  public get b(): number {
-    return this._b;
-  }
-
   constructor(r: number = 0, g: number = 0, b: number = 0) {
     this.r = r;
     this.g = g;
@@ -63,11 +39,11 @@ export class Color implements IColor {
   }
 
   get rgb(): string {
-    return `rgb(${this._r}, ${this._g}, ${this._b})`;
+    return `rgb(${this.r}, ${this.g}, ${this.b})`;
   }
 
   toString(): string {
-    return this._r.toString(16) + this._g.toString(16) + this._b.toString(16);
+    return this.r.toString(16) + this.g.toString(16) + this.b.toString(16);
   }
 
   delta(color: IColor): number {
@@ -94,7 +70,7 @@ class ColorVolume {
     if (!colors) return;
     this._length = colors.length;
 
-    colors.forEach((color) => {
+    colors.forEach(color => {
       const index = color.compose;
       const pixel = this.pixels[index];
 
@@ -109,7 +85,7 @@ class ColorVolume {
   }
 
   private iterPixels(func: (IPixel) => void) {
-    Object.keys(this.pixels).forEach((key) => {
+    Object.keys(this.pixels).forEach(key => {
       func(this.pixels[key]);
     });
   }
@@ -120,9 +96,8 @@ class ColorVolume {
 
   mainColor(): Color {
     const avg: IColor = { r: 0, g: 0, b: 0 };
-    const similar: Color = new Color();
 
-    this.iterPixels((pixel) => {
+    this.iterPixels(pixel => {
       avg.r += pixel.num * pixel.color.r;
       avg.g += pixel.num * pixel.color.g;
       avg.b += pixel.num * pixel.color.b;
@@ -132,20 +107,7 @@ class ColorVolume {
     avg.g = avg.g / this.length;
     avg.b = avg.b / this.length;
 
-    let delta = 255 * 3;
-
-    this.iterPixels((pixel) => {
-      const curDelta = Color.delta(avg, pixel.color);
-
-      if (curDelta < delta) {
-        similar.r = pixel.color.r;
-        similar.g = pixel.color.g;
-        similar.b = pixel.color.b;
-        delta = curDelta;
-      }
-    });
-
-    return similar;
+    return new Color(avg.r, avg.g, avg.b);
   }
 
   private deltaDimension() {
@@ -155,8 +117,8 @@ class ColorVolume {
 
     const dimensions = ['r', 'g', 'b'];
 
-    this.iterPixels((pixel) => {
-      dimensions.forEach((d) => {
+    this.iterPixels(pixel => {
+      dimensions.forEach(d => {
         max[d] = Math.max(max[d], pixel.color[d]);
         min[d] = Math.min(min[d], pixel.color[d]);
       });
@@ -172,7 +134,7 @@ class ColorVolume {
 
     return {
       dimension,
-      middle: (max[dimension] + min[dimension]) / 2,
+      middle: (max[dimension] + min[dimension]) / 2
     };
   }
 
@@ -186,7 +148,7 @@ class ColorVolume {
     const left: IPixelCount = { length: 0, pixels: [] };
     const right: IPixelCount = { length: 0, pixels: [] };
 
-    this.iterPixels((pixel) => {
+    this.iterPixels(pixel => {
       if (pixel.color[dimension] > middle) {
         right.length += pixel.num;
         right.pixels.push(pixel);
@@ -198,13 +160,14 @@ class ColorVolume {
 
     return {
       right: new ColorVolume(right.pixels, right.length),
-      left: new ColorVolume(left.pixels, left.length),
+      left: new ColorVolume(left.pixels, left.length)
     };
   }
 }
 
 class MMCQ {
   private volumes: ColorVolume[] = [];
+  private pixels: Color[] = [];
 
   /**
    *
@@ -213,14 +176,13 @@ class MMCQ {
    */
   constructor(img: HTMLImageElement, imageQuality: number = 0.5) {
     const data = getImageData(img, imageQuality);
-    const pixels: Color[] = [];
 
     for (let i = 0, max = data.length; i < max; i += 4) {
       const color = new Color(data[i + 0], data[i + 1], data[i + 2]);
-      pixels.push(color);
+      this.pixels.push(color);
     }
 
-    const volume = new ColorVolume().fromColors(pixels);
+    const volume = new ColorVolume().fromColors(this.pixels);
     this.volumes = [volume];
   }
 
@@ -255,7 +217,40 @@ class MMCQ {
       }
     }
 
-    return this.volumes.map((v) => v.mainColor()).slice(0, length);
+    const avgColors = this.volumes.slice(0, length).map(v => v.mainColor());
+
+    return this.getSimilarPalette(avgColors);
+  }
+
+  getSimilarPalette(avgColors: Color[]): Color[] {
+    const colorNumber = avgColors.length;
+
+    interface IMainColor {
+      delta: number;
+      color: Color;
+    }
+
+    const colors: IMainColor[] = new Array(colorNumber);
+
+    for (let i = 0; i < colorNumber; i++) {
+      colors[i] = {
+        delta: 255 * 3,
+        color: null
+      };
+    }
+
+    this.pixels.forEach(pixel => {
+      for (let i = 0; i < colorNumber; i++) {
+        const mainColor = colors[i];
+        const delta = Color.delta(pixel, avgColors[i]);
+
+        if (delta < mainColor.delta) {
+          mainColor.delta = delta;
+          mainColor.color = pixel;
+        }
+      }
+    });
+    return colors.map(c => c.color);
   }
 }
 
@@ -273,9 +268,11 @@ export interface IQuality {
 function getPalette(
   img: HTMLImageElement,
   length: number,
-  quality: IQuality,
+  quality: IQuality
 ): Color[] {
-  return new MMCQ(img, quality.image).getPalette(length, quality.algorithm);
+  const mmcq = new MMCQ(img, quality.image);
+  // window['mmcq'] = mmcq;
+  return mmcq.getPalette(length, quality.algorithm);
 }
 
 export default getPalette;
