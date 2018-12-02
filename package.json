@@ -1,6 +1,6 @@
 {
   "name": "img-color-palette",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "main": "dist/lib.js",
   "typings": "types/index.d.ts",
   "scripts": {
