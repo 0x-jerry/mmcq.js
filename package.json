@@ -1,11 +1,11 @@
 {
   "name": "img-color-palette",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "main": "dist/lib.js",
   "typings": "types/index.d.ts",
   "scripts": {
-    "dev": "set NODE_ENV=development && webpack-dev-server --config ./webpack.dev.js",
-    "build": "set NODE_ENV=production && webpack --config ./webpack.prod.js",
+    "dev": "set NODE_ENV=development&& webpack-dev-server --config ./webpack.dev.js",
+    "build": "set NODE_ENV=production&& webpack --config ./webpack.prod.js",
     "prepublish": "npm run build"
   },
   "repository": "https://github.com/cwxyz007/color-palette.git",
