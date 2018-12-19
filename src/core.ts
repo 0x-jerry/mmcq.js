@@ -138,7 +138,7 @@ class ColorVolume {
     };
   }
 
-  cutWidthDimension() {
+  cutWithDimension() {
     interface IPixelCount {
       length: number;
       pixels: IPixel[];
@@ -201,7 +201,7 @@ class MMCQ {
 
       for (let i = 0, max = this.volumes.length; i < max; i++) {
         const volume = this.volumes[i];
-        const { left, right } = volume.cutWidthDimension();
+        const { left, right } = volume.cutWithDimension();
 
         if (left.length !== 0) newVolumes.push(left);
         if (right.length !== 0) newVolumes.push(right);

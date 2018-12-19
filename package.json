@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "set NODE_ENV=development&& webpack-dev-server --config ./webpack.dev.js",
     "build": "set NODE_ENV=production&& webpack --config ./webpack.prod.js",
-    "prepublish": "npm run build"
+    "publishOnly": "npm run build"
   },
   "repository": "https://github.com/cwxyz007/color-palette.git",
   "author": "cwxyz <jie844067636@gmail.com>",
