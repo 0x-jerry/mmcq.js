@@ -4,5 +4,6 @@
     "module": "esnext",
     "moduleResolution": "node",
     "sourceMap": true
-  }
+  },
+  "exclude": ["node_modules"]
 }
