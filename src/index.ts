@@ -1,4 +1,4 @@
-import getPalette from './src/core';
+import getPalette from './core';
 
 let AlgorithmQuality = 5;
 let ImageQuality = 0.3;

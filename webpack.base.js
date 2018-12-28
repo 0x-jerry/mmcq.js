@@ -3,7 +3,7 @@ const sPath = require('path');
 
 module.exports = {
   mode: isDev ? 'development' : 'production',
-  entry: sPath.join(__dirname, 'index.ts'),
+  entry: sPath.join(__dirname, 'src', 'index.ts'),
   output: {
     path: sPath.join(__dirname, 'dist'),
     filename: 'index.js',
