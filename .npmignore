@@ -5,3 +5,4 @@ index.ts
 webpack.*.js
 **/.*
 tsconfig.json
+src/

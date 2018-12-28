@@ -1,4 +1,5 @@
 import { getImageData } from './utils';
+import { IQuality } from '../types/index';
 
 interface IColor {
   r: number;
@@ -134,7 +135,7 @@ class ColorVolume {
 
     return {
       dimension,
-      middle: (max[dimension] + min[dimension]) / 2
+      middle: (max[dimension] + min[dimension]) / 2,
     };
   }
 
@@ -160,7 +161,7 @@ class ColorVolume {
 
     return {
       right: new ColorVolume(right.pixels, right.length),
-      left: new ColorVolume(left.pixels, left.length)
+      left: new ColorVolume(left.pixels, left.length),
     };
   }
 }
@@ -235,7 +236,7 @@ class MMCQ {
     for (let i = 0; i < colorNumber; i++) {
       colors[i] = {
         delta: 255 * 3,
-        color: null
+        color: null,
       };
     }
 
@@ -254,21 +255,10 @@ class MMCQ {
   }
 }
 
-export interface IQuality {
-  /**
-   * 0.1 -1
-   */
-  image: number;
-  /**
-   * 0.1 -1
-   */
-  algorithm: number;
-}
-
 function getPalette(
   img: HTMLImageElement,
   length: number,
-  quality: IQuality
+  quality: IQuality,
 ): Color[] {
   const mmcq = new MMCQ(img, quality.image);
   // window['mmcq'] = mmcq;
