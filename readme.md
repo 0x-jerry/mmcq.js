@@ -23,9 +23,22 @@ import getPalette from 'img-color-palette';
 const img = document.getElementById('img-id');
 
 const colors = getPalette(img, 8, {
-  image: 0.2,     // 0.1 - 1
-  algorithm: 8,   // 1 - 8
+  image: 0.2, // 0.1 - 1
+  algorithm: 8, // 1 - 8
 });
 
 colors.forEach(color => console.log(color));
+```
+
+## 说明 (Explain)
+
+```ts
+function getPalette(
+  img: HTMLImageElement, // 需要解析的图片
+  length: number, // 返回的颜色的个数
+  quality: {
+    image: number; // 图片的质量 0.1 最小， 1 最大
+    algorithm: number // 算法精度 1 最差， 8 最好，整数
+  },
+): Color[];
 ```
