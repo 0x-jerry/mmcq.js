@@ -108,7 +108,7 @@ export default class App extends Component<{}, IAppState> {
         <div className="divider" />
         <div className="imgs">
           {images.map(p => (
-            <div className="img">
+            <div className="img" key={p}>
               <img src={p} onClick={this.handleImageClick} />
             </div>
           ))}
