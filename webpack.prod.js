@@ -17,8 +17,7 @@ module.exports = [
     output: {
       path: sPath.join(__dirname, 'dist'),
       filename: 'lib.js',
-      libraryTarget: 'umd',
-      globalObject: 'this'
+      libraryTarget: 'umd'
     }
   })
 ]

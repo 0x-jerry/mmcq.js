@@ -1,33 +1,20 @@
-import { getImageData } from '../utils'
+import { getImageData } from './utils'
 /* eslint-disable-next-line no-unused-vars */
-import { IQuality } from '../../types/index'
-
-interface IColor {
-  r: number;
-  g: number;
-  b: number;
-}
-
-interface IPixel {
-  num: number;
-  color: Color;
-}
+import { IQuality, IColor, IPixel } from '../../types/index'
 
 export class Color implements IColor {
-  r: number;
-  g: number;
-  b: number;
+  r: number
+  g: number
+  b: number
 
-  static bit: number = 5;
+  static bit: number = 5
 
   static compose (color: IColor): number {
     return (color.r << (2 * Color.bit)) + (color.g << Color.bit) + color.b
   }
 
   static delta (c1: IColor, c2: IColor): number {
-    return (
-      Math.abs(c1.r - c1.r) + Math.abs(c1.g - c2.g) + Math.abs(c1.b - c2.b)
-    )
+    return Math.abs(c1.r - c1.r) + Math.abs(c1.g - c2.g) + Math.abs(c1.b - c2.b)
   }
 
   constructor (r: number = 0, g: number = 0, b: number = 0) {
@@ -58,8 +45,8 @@ export class Color implements IColor {
 }
 
 class ColorVolume {
-  private pixels: IPixel[] = [];
-  private _length: number = 0;
+  private pixels: IPixel[] = []
+  private _length: number = 0
 
   constructor (pixels?: IPixel[], length?: number) {
     if (!pixels) return
@@ -142,8 +129,8 @@ class ColorVolume {
 
   cutWithDimension () {
     interface IPixelCount {
-      length: number;
-      pixels: IPixel[];
+      length: number
+      pixels: IPixel[]
     }
 
     const { dimension, middle } = this.deltaDimension()
@@ -168,8 +155,8 @@ class ColorVolume {
 }
 
 class MMCQ {
-  private volumes: ColorVolume[] = [];
-  private pixels: Color[] = [];
+  private volumes: ColorVolume[] = []
+  private pixels: Color[] = []
 
   /**
    *
@@ -228,8 +215,8 @@ class MMCQ {
     const colorNumber = avgColors.length
 
     interface IMainColor {
-      delta: number;
-      color: Color;
+      delta: number
+      color: Color
     }
 
     const colors: IMainColor[] = new Array(colorNumber)
