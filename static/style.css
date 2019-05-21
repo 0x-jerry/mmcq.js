@@ -1,0 +1,52 @@
+.imgs {
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.imgs .img {
+  width: calc(33% - 20px);
+  overflow: hidden;
+  margin: 10px;
+  border-radius: 5px;
+}
+
+.imgs .img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: all ease 0.4s;
+  cursor: pointer;
+}
+
+img:hover {
+  transform: scale(1.1);
+}
+
+.colors {
+  width: 100%;
+  height: 50px;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.color {
+  flex: 1;
+  height: 40px;
+  box-shadow: 0 0 2px #eee;
+  margin: 0 5px;
+}
+
+.setting .value {
+  width: 1rem;
+  display: inline-block;
+}
+
+.setting input {
+  margin-right: 5px;
+}

@@ -3,7 +3,9 @@
     "target": "es6",
     "module": "esnext",
     "moduleResolution": "node",
-    "sourceMap": true
+    "sourceMap": true,
+    "jsx": "react",
+    "jsxFactory": "h"
   },
   "exclude": ["node_modules"]
 }

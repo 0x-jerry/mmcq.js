@@ -1,8 +1,6 @@
 # Color Palette
 
-提取颜色主色调，仅支持浏览器
-
-Extract image main color, only support browser
+提取颜色主色调，仅支持浏览器 (Extract image main color, only support browser)
 
 [例子 | See Demo](https://cwxyz007.github.io/img-color-palette/index.html)
 

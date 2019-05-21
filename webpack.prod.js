@@ -1,11 +1,11 @@
-const baseConfig = require('./webpack.base.js');
-const merge = require('webpack-merge');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const sPath = require('path');
+const baseConfig = require('./webpack.base.js')
+const merge = require('webpack-merge')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const sPath = require('path')
 
 module.exports = [
   merge(baseConfig, {
-    entry: sPath.join(__dirname, 'index.ts'),
+    entry: sPath.join(__dirname, 'src', 'index.ts'),
     output: {
       filename: 'index.js',
       path: sPath.join(__dirname, 'dist')
@@ -13,7 +13,7 @@ module.exports = [
     plugins: [new CleanWebpackPlugin([sPath.join(__dirname, 'dist')])]
   }),
   merge(baseConfig, {
-    entry: sPath.join(__dirname, 'src', 'core.ts'),
+    entry: sPath.join(__dirname, 'src', 'lib', 'core.ts'),
     output: {
       path: sPath.join(__dirname, 'dist'),
       filename: 'lib.js',
@@ -21,4 +21,4 @@ module.exports = [
       globalObject: 'this'
     }
   })
-];
+]

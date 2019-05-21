@@ -1,26 +1,26 @@
-const isDev = process.env.NODE_ENV === 'development';
-const sPath = require('path');
+const isDev = process.env.NODE_ENV === 'development'
+const sPath = require('path')
 
 module.exports = {
   mode: isDev ? 'development' : 'production',
   entry: sPath.join(__dirname, 'src', 'index.ts'),
   output: {
     path: sPath.join(__dirname, 'dist'),
-    filename: 'index.js',
+    publicPath: 'dist',
+    filename: 'index.js'
   },
   module: {
     rules: [
       {
-        test: /\.[tj]s?$/,
+        test: /\.[tj]sx?$/,
         include: [
-          sPath.join(__dirname, 'src'),
-          sPath.join(__dirname, 'index.ts'),
+          sPath.join(__dirname, 'src')
         ],
-        loader: 'ts-loader',
-      },
-    ],
+        loader: 'ts-loader'
+      }
+    ]
   },
   resolve: {
-    extensions: ['.js', '.ts'],
-  },
-};
+    extensions: ['.js', '.ts', '.tsx']
+  }
+}
