@@ -1,4 +1,4 @@
-import { h, Component } from 'preact'
+import { Component } from 'preact'
 import getPalette, { Color } from './lib/core'
 
 interface IAppState {
@@ -60,7 +60,7 @@ export default class App extends Component<{}, IAppState> {
     const { colors, configs, spendTime } = this.state
     const images = Array(6)
       .fill(0)
-      .map((_, i) => `static/images/${i + 1}.jpg`)
+      .map((_, i) => `./images/${i + 1}.jpg`)
 
     return (
       <div className="app">
