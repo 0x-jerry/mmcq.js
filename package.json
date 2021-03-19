@@ -1,19 +1,25 @@
 {
   "name": "img-color-palette",
   "version": "0.2.3",
-  "main": "dist/lib.js",
+  "main": "dist/img-color-palette.cjs.js",
   "typings": "types/index.d.ts",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "yarn build:lib && yarn build:docs",
+    "build:lib": "vite build --mode lib",
+    "build:docs": "vite build",
     "lint": "eslint src/**/*.ts *.js --fix",
     "prepublishOnly": "npm run build"
   },
+  "files": [
+    "dist"
+  ],
   "repository": "https://github.com/cwxyz007/color-palette.git",
   "author": "cwxyz <jie844067636@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "@preact/preset-vite": "^2.0.0",
+    "@types/node": "^14.14.35",
     "@typescript-eslint/parser": "^4.18.0",
     "eslint": "^7.22.0",
     "eslint-config-standard": "^16.0.2",

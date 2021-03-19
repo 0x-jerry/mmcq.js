@@ -2,6 +2,8 @@ import { getImageData } from './utils'
 /* eslint-disable-next-line no-unused-vars */
 import { IQuality, IColor, IPixel } from '../../types/index'
 
+type ColorDimension = 'r' | 'g' | 'b'
+
 export class Color implements IColor {
   r: number
   g: number
@@ -48,7 +50,7 @@ class ColorVolume {
   private pixels: IPixel[] = []
   private _length: number = 0
 
-  constructor (pixels?: IPixel[], length?: number) {
+  constructor (pixels?: IPixel[], length = 0) {
     if (!pixels) return
 
     this.pixels = pixels
@@ -56,7 +58,8 @@ class ColorVolume {
   }
 
   fromColors (colors: Color[]): ColorVolume {
-    if (!colors) return
+    if (!colors) return this
+
     this._length = colors.length
 
     colors.forEach(color => {
@@ -73,9 +76,9 @@ class ColorVolume {
     return this
   }
 
-  private iterPixels (func: (IPixel) => void) {
+  private iterPixels (func: (pixel: IPixel) => void) {
     Object.keys(this.pixels).forEach(key => {
-      func(this.pixels[key])
+      func(this.pixels[key as any])
     })
   }
 
@@ -100,11 +103,11 @@ class ColorVolume {
   }
 
   private deltaDimension () {
-    let dimension = ''
+    let dimension: ColorDimension = 'b'
     const max: Color = new Color(0, 0, 0)
     const min: Color = new Color(255, 255, 255)
 
-    const dimensions = ['r', 'g', 'b']
+    const dimensions = ['r', 'g', 'b'] as const
 
     this.iterPixels(pixel => {
       dimensions.forEach(d => {
@@ -224,7 +227,7 @@ class MMCQ {
     for (let i = 0; i < colorNumber; i++) {
       colors[i] = {
         delta: 255 * 3,
-        color: null
+        color: new Color()
       }
     }
 

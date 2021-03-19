@@ -1,4 +1,5 @@
+import './style.css'
 import { render } from 'preact'
 import { app } from './App'
 
-render(app(), document.getElementById('app'))
+render(app(), document.getElementById('app')!)

@@ -2,6 +2,8 @@
 
 提取颜色主色调，仅支持浏览器 (Extract image main color, only support browser)
 
+仅 300 行不到的代码，且零依赖。(< 300 lines source code, zero dependency)
+
 [例子 | See Demo](https://cwxyz007.github.io/img-color-palette/index.html)
 
 ## 安装 (Install)

@@ -11,6 +11,11 @@ function getImageData (
   canvas.height = image.naturalHeight * imageQuality
 
   const ctx = canvas.getContext('2d')
+
+  if (!ctx) {
+    return [] as any
+  }
+
   ctx.drawImage(image, 0, 0, canvas.width, canvas.height)
   const data = ctx.getImageData(0, 0, canvas.width, canvas.height)
 
