@@ -1,123 +1,103 @@
-import { Component } from 'preact'
+import React, { useState } from 'react'
 import getPalette, { Color } from './lib/core'
 
-interface IAppState {
-  colors: Color[]
-  configs: {
-    len: number
-    algorithm: number
-    image: number
-  }
-  spendTime: number
-}
+function App() {
+  const len = 8
 
-export default class App extends Component<{}, IAppState> {
-  constructor () {
-    super()
-    const len = 8
+  const [colors, setColors] = useState(
+    Array(len)
+      .fill(0)
+      .map(() => new Color(255, 255, 255)),
+  )
 
-    this.state = {
-      colors: Array(len)
-        .fill(0)
-        .map(() => new Color(255, 255, 255)),
-      configs: {
-        len,
-        algorithm: 1,
-        image: 0.1
-      },
-      spendTime: 0
-    }
-  }
+  const [configs, setConfigs] = useState({
+    len,
+    algorithm: 1,
+    image: 0.1,
+  })
 
-  handleImageClick = (e: Event) => {
-    const { configs } = this.state
+  const [spendTime, setSpendTime] = useState(0)
+
+  const images = Array(6)
+    .fill(0)
+    .map((_, i) => `./images/${i + 1}.jpg`)
+
+  function handleImageClick(e: React.MouseEvent<HTMLImageElement>) {
     const time = new Date()
 
     const colors = getPalette(e.target as HTMLImageElement, configs.len, {
       algorithm: configs.algorithm,
-      image: configs.image
+      image: configs.image,
     })
 
     const endTime = new Date()
 
-    this.setState({
-      colors,
-      spendTime: endTime.getTime() - time.getTime()
-    })
+    setColors(colors)
+    setSpendTime(endTime.getTime() - time.getTime())
   }
 
-  handleInputChanged = (e: Event, type: 'algorithm' | 'image') => {
-    const { configs } = this.state
-
-    configs[type] = +(e.target as HTMLInputElement).value
-
-    this.setState({
-      configs
-    })
+  function handleInputChanged(
+    e: React.ChangeEvent<HTMLInputElement>,
+    type: 'image' | 'algorithm',
+  ) {
+    setConfigs({ ...configs, [type]: +e.target.value })
   }
 
-  render () {
-    const { colors, configs, spendTime } = this.state
-    const images = Array(6)
-      .fill(0)
-      .map((_, i) => `./images/${i + 1}.jpg`)
+  return (
+    <div className="app">
+      <h1 className="title">Img Color Palette Demo</h1>
 
-    return (
-      <div className="app">
-        <h1 className="title">Img Color Palette Demo</h1>
-
-        <div className="settings">
-          <span className="setting">
-            algorithm complexity:
-            <input
-              type="range"
-              style={{ width: '200px' }}
-              value={configs.algorithm}
-              min="1"
-              max="8"
-              onChange={e => this.handleInputChanged(e, 'algorithm')}
-            />
-            {configs.algorithm}
-          </span>
-          <span className="setting">
-            image quality:
-            <input
-              type="range"
-              style={{ width: '200px' }}
-              value={configs.image}
-              min="0.1"
-              step="0.1"
-              max="1"
-              onChange={e => this.handleInputChanged(e, 'image')}
-            />
-            {configs.image.toFixed(1)}
-          </span>
-          <span className="setting">spend time: {spendTime} ms</span>
-        </div>
-
-        <div className="divider" />
-        <div className="colors">
-          {colors.map((color, i) => (
-            <div className="color-box" key={`color${i}`}>
-              <div className="color" style={{ backgroundColor: color.hex }} />
-              <div className="desc title">{color.hex.toUpperCase()}</div>
-            </div>
-          ))}
-        </div>
-
-        <div className="divider" />
-        <div className="imgs">
-          {images.map(p => (
-            <div className="img" key={p}>
-              <img src={p} onClick={this.handleImageClick} />
-            </div>
-          ))}
-        </div>
+      <div className="settings">
+        <span className="setting">
+          algorithm complexity:
+          <input
+            type="range"
+            style={{ width: '200px' }}
+            value={configs.algorithm}
+            min="1"
+            max="8"
+            onChange={(e) => handleInputChanged(e, 'algorithm')}
+          />
+          {configs.algorithm}
+        </span>
+        <span className="setting">
+          image quality:
+          <input
+            type="range"
+            style={{ width: '200px' }}
+            value={configs.image}
+            min="0.1"
+            step="0.1"
+            max="1"
+            onChange={(e) => handleInputChanged(e, 'image')}
+          />
+          {configs.image.toFixed(1)}
+        </span>
+        <span className="setting">spend time: {spendTime} ms</span>
       </div>
-    )
-  }
+
+      <div className="divider" />
+      <div className="colors">
+        {colors.map((color, i) => (
+          <div className="color-box" key={`color${i}`}>
+            <div className="color" style={{ backgroundColor: color.hex }} />
+            <div className="desc title">{color.hex.toUpperCase()}</div>
+          </div>
+        ))}
+      </div>
+
+      <div className="divider" />
+      <div className="imgs">
+        {images.map((p) => (
+          <div className="img" key={p}>
+            <img src={p} onClick={handleImageClick} />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
 }
 
-export function app () {
+export function app() {
   return <App />
 }
