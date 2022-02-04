@@ -1,6 +1,8 @@
 import { Color } from './Color'
 import { ColorVolume } from './ColorVolume'
 
+declare function warn(arg0: string): void
+
 class MainColor {
   delta: number
   color: Color
@@ -51,7 +53,8 @@ export class MMCQ {
       this.volumes = newVolumes.sort((a, b) => b.length - a.length)
 
       if (lastLength === this.volumes.length) {
-        console.warn('too small pixels')
+        warn('too small pixels')
+
         break
       } else {
         lastLength = this.volumes.length

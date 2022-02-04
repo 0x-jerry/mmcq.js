@@ -10,7 +10,11 @@ export class Color {
   static bit: u8 = 5
 
   static compose(color: Color): u32 {
-    return (color.r << (2 * Color.bit)) + (color.g << Color.bit) + color.b
+    const r: u32 = color.r
+    const g: u32 = color.g
+    const b: u32 = color.b
+
+    return (r << (2 * Color.bit)) + (g << Color.bit) + b
   }
 
   static delta(c1: Color, c2: Color): u32 {
@@ -48,8 +52,13 @@ export class Color {
     this.data[dimension] = value
   }
 
-  get hex(): string {
-    return '#' + this.toString()
+  get hex(): u32 {
+    const r: u32 = this.r
+    const g: u32 = this.g
+    const b: u32 = this.b
+    const bit = 8
+
+    return (r << (2 * bit)) + (g << bit) + b
   }
 
   get rgb(): string {

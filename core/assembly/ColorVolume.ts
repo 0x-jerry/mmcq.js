@@ -1,6 +1,6 @@
 import { Color, ColorDimension } from './Color'
 
-export class Pixel {
+export class PixelCount {
   num: u32
   color: Color
 }
@@ -15,34 +15,39 @@ class CutDimensionResult {
   left: ColorVolume
 }
 
-class IPixelCount {
+class IPixelVolume {
   length: number
-  pixels: Pixel[]
+  pixels: Map<u32, PixelCount>
 }
 
 export class ColorVolume {
-  private pixels: Pixel[] = []
+  private pixels: Map<u32, PixelCount> = new Map<u32, PixelCount>()
   private _length: u32 = 0
 
-  constructor(pixels: Pixel[], length: u32 = 0) {
+  /**
+   *
+   * @param pixels
+   * @param length total length for pixels
+   */
+  constructor(pixels: Map<u32, PixelCount>, length: u32 = 0) {
     this.pixels = pixels
     this._length = length
   }
 
   static fromColors(colors: Color[]): ColorVolume {
     const length = colors.length
-    const pixels = new Array<Pixel>(length)
+    const pixels = new Map<u32, PixelCount>()
 
     for (let idx = 0; idx < colors.length; idx++) {
       const color = colors[idx]
 
       const index = color.compose
-      const pixel = pixels[index]
 
-      if (pixel) {
+      if (pixels.has(index)) {
+        const pixel = pixels.get(index)
         pixel.num += 1
       } else {
-        pixels[index] = { num: 1, color }
+        pixels.set(index, { num: 1, color })
       }
     }
 
@@ -58,8 +63,10 @@ export class ColorVolume {
     let g: u32 = 0
     let b: u32 = 0
 
-    for (let idx = 0; idx < this.pixels.length; idx++) {
-      const pixel = this.pixels[idx]
+    const pixels = this.pixels.values()
+
+    for (let idx = 0; idx < pixels.length; idx++) {
+      const pixel = pixels[idx]
 
       r += pixel.num * pixel.color.r
       g += pixel.num * pixel.color.g
@@ -81,8 +88,10 @@ export class ColorVolume {
 
     const dimensions = [ColorDimension.r, ColorDimension.g, ColorDimension.b]
 
-    for (let idx = 0; idx < this.pixels.length; idx++) {
-      const pixel = this.pixels[idx]
+    const pixels = this.pixels.values()
+
+    for (let idx = 0; idx < pixels.length; idx++) {
+      const pixel = pixels[idx]
 
       for (let index = 0; index < dimensions.length; index++) {
         const d = dimensions[index]
@@ -119,18 +128,20 @@ export class ColorVolume {
     const dimension = delta.dimension
     const middle = delta.middle
 
-    const left: IPixelCount = { length: 0, pixels: [] }
-    const right: IPixelCount = { length: 0, pixels: [] }
+    const left: IPixelVolume = { length: 0, pixels: new Map() }
+    const right: IPixelVolume = { length: 0, pixels: new Map() }
 
-    for (let idx = 0; idx < this.pixels.length; idx++) {
-      const pixel = this.pixels[idx]
+    const pixels = this.pixels.values()
+
+    for (let idx = 0; idx < pixels.length; idx++) {
+      const pixel = pixels[idx]
 
       if (pixel.color.get(dimension) > middle) {
         right.length += pixel.num
-        right.pixels.push(pixel)
+        right.pixels.set(pixel.color.compose, pixel)
       } else {
         left.length += pixel.num
-        left.pixels.push(pixel)
+        left.pixels.set(pixel.color.compose, pixel)
       }
     }
 
