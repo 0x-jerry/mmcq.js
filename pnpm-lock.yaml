@@ -1,26 +1,36 @@
 lockfileVersion: 5.3
 
-specifiers:
-  '@types/node': ^17.0.14
-  '@types/react': ^17.0.39
-  '@types/react-dom': ^17.0.11
-  '@vitejs/plugin-react': ^1.1.4
-  react: ^17.0.2
-  react-dom: ^17.0.2
-  typescript: ^4.5.5
-  vite: ^2.7.13
+importers:
 
-dependencies:
-  react: registry.npmmirror.com/react/17.0.2
-  react-dom: registry.npmmirror.com/react-dom/17.0.2_react@17.0.2
+  .:
+    specifiers:
+      '@types/node': ^17.0.14
+      '@types/react': ^17.0.39
+      '@types/react-dom': ^17.0.11
+      '@vitejs/plugin-react': ^1.1.4
+      react: ^17.0.2
+      react-dom: ^17.0.2
+      typescript: ^4.5.5
+      vite: ^2.7.13
+    dependencies:
+      react: registry.npmmirror.com/react/17.0.2
+      react-dom: registry.npmmirror.com/react-dom/17.0.2_react@17.0.2
+    devDependencies:
+      '@types/node': registry.npmmirror.com/@types/node/17.0.14
+      '@types/react': registry.npmmirror.com/@types/react/17.0.39
+      '@types/react-dom': registry.npmmirror.com/@types/react-dom/17.0.11
+      '@vitejs/plugin-react': registry.npmmirror.com/@vitejs/plugin-react/1.1.4
+      typescript: registry.npmmirror.com/typescript/4.5.5
+      vite: registry.npmmirror.com/vite/2.7.13
 
-devDependencies:
-  '@types/node': registry.npmmirror.com/@types/node/17.0.14
-  '@types/react': registry.npmmirror.com/@types/react/17.0.39
-  '@types/react-dom': registry.npmmirror.com/@types/react-dom/17.0.11
-  '@vitejs/plugin-react': registry.npmmirror.com/@vitejs/plugin-react/1.1.4
-  typescript: registry.npmmirror.com/typescript/4.5.5
-  vite: registry.npmmirror.com/vite/2.7.13
+  core:
+    specifiers:
+      '@assemblyscript/loader': ^0.19.22
+      assemblyscript: ^0.19.22
+    dependencies:
+      '@assemblyscript/loader': registry.npmmirror.com/@assemblyscript/loader/0.19.22
+    devDependencies:
+      assemblyscript: registry.npmmirror.com/assemblyscript/0.19.22
 
 packages:
 
@@ -33,6 +43,12 @@ packages:
       '@jridgewell/trace-mapping': registry.npmmirror.com/@jridgewell/trace-mapping/0.2.5
       sourcemap-codec: registry.npmmirror.com/sourcemap-codec/1.4.8
     dev: true
+
+  registry.npmmirror.com/@assemblyscript/loader/0.19.22:
+    resolution: {integrity: sha512-ksrMVpPOatD7ZzXCw+c/g3zId5rm8MMnQe7P32dH/qtDrgT9SbQjJYEngRP0YhRF0qrBCga2PtpID7arqphGyg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@assemblyscript/loader/-/loader-0.19.22.tgz}
+    name: '@assemblyscript/loader'
+    version: 0.19.22
+    dev: false
 
   registry.npmmirror.com/@babel/code-frame/7.16.7:
     resolution: {integrity: sha512-iAXqUn8IIeBTNd72xsFlgaXHkMBMt6y4HJp1tIaK465CWLT/fG1aqB7ykr95gHHmlBdGbFeWWfyB4NJJ0nmeIg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@babel/code-frame/-/code-frame-7.16.7.tgz}
@@ -446,6 +462,24 @@ packages:
       color-convert: registry.npmmirror.com/color-convert/1.9.3
     dev: true
 
+  registry.npmmirror.com/assemblyscript/0.19.22:
+    resolution: {integrity: sha512-+Rclbx0+BI3qAe9fjc8XGbSUDaayTtjINnD19I4MmfpT2R43c9YTQERP36676shkPxb1fisDFZeSTL65Da8Q2g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/assemblyscript/-/assemblyscript-0.19.22.tgz}
+    name: assemblyscript
+    version: 0.19.22
+    hasBin: true
+    dependencies:
+      binaryen: registry.npmmirror.com/binaryen/102.0.0-nightly.20211028
+      long: registry.npmmirror.com/long/5.2.0
+      source-map-support: registry.npmmirror.com/source-map-support/0.5.21
+    dev: true
+
+  registry.npmmirror.com/binaryen/102.0.0-nightly.20211028:
+    resolution: {integrity: sha512-GCJBVB5exbxzzvyt8MGDv/MeUjs6gkXDvf4xOIItRBptYl0Tz5sm1o/uG95YK0L0VeG5ajDu3hRtkBP2kzqC5w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/binaryen/-/binaryen-102.0.0-nightly.20211028.tgz}
+    name: binaryen
+    version: 102.0.0-nightly.20211028
+    hasBin: true
+    dev: true
+
   registry.npmmirror.com/browserslist/4.19.1:
     resolution: {integrity: sha512-u2tbbG5PdKRTUoctO3NBD8FQ5HdPh1ZXPHzp1rwaa5jTc+RV9/+RlWiAIKmjRPQF+xbGM9Kklj5bZQFa2s/38A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/browserslist/-/browserslist-4.19.1.tgz}
     name: browserslist
@@ -458,6 +492,12 @@ packages:
       escalade: registry.npmmirror.com/escalade/3.1.1
       node-releases: registry.npmmirror.com/node-releases/2.0.1
       picocolors: registry.npmmirror.com/picocolors/1.0.0
+    dev: true
+
+  registry.npmmirror.com/buffer-from/1.1.2:
+    resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/buffer-from/-/buffer-from-1.1.2.tgz}
+    name: buffer-from
+    version: 1.1.2
     dev: true
 
   registry.npmmirror.com/caniuse-lite/1.0.30001306:
@@ -818,6 +858,12 @@ packages:
       minimist: registry.npmmirror.com/minimist/1.2.5
     dev: true
 
+  registry.npmmirror.com/long/5.2.0:
+    resolution: {integrity: sha512-9RTUNjK60eJbx3uz+TEGF7fUr29ZDxR5QzXcyDpeSfeH28S9ycINflOgOlppit5U+4kNTe83KQnMEerw7GmE8w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/long/-/long-5.2.0.tgz}
+    name: long
+    version: 5.2.0
+    dev: true
+
   registry.npmmirror.com/loose-envify/1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/loose-envify/-/loose-envify-1.4.0.tgz}
     name: loose-envify
@@ -971,10 +1017,26 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
+  registry.npmmirror.com/source-map-support/0.5.21:
+    resolution: {integrity: sha512-uBHU3L3czsIyYXKX88fdrGovxdSCoTGDRZ6SYXtSRxLZUzHg5P/66Ht6uoUlHu9EZod+inXhKo3qQgwXUT/y1w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/source-map-support/-/source-map-support-0.5.21.tgz}
+    name: source-map-support
+    version: 0.5.21
+    dependencies:
+      buffer-from: registry.npmmirror.com/buffer-from/1.1.2
+      source-map: registry.npmmirror.com/source-map/0.6.1
+    dev: true
+
   registry.npmmirror.com/source-map/0.5.7:
     resolution: {integrity: sha512-LbrmJOMUSdEVxIKvdcJzQC+nQhe8FUZQTXQy6+I75skNgn3OoQ0DZA8YnFa7gp8tqtL3KPf1kmo0R5DoApeSGQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/source-map/-/source-map-0.5.7.tgz}
     name: source-map
     version: 0.5.7
+    engines: {node: '>=0.10.0'}
+    dev: true
+
+  registry.npmmirror.com/source-map/0.6.1:
+    resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/source-map/-/source-map-0.6.1.tgz}
+    name: source-map
+    version: 0.6.1
     engines: {node: '>=0.10.0'}
     dev: true
 

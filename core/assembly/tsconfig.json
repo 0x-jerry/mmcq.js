@@ -1,0 +1,6 @@
+{
+  "extends": "../../node_modules/.pnpm/registry.npmmirror.com+assemblyscript@0.19.22/node_modules/assemblyscript/std/assembly.json",
+  "include": [
+    "./**/*.ts"
+  ]
+}

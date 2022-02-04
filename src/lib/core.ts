@@ -1,6 +1,5 @@
 import { getImageData } from './utils'
-/* eslint-disable-next-line no-unused-vars */
-import { IQuality, IColor, IPixel } from '../../types/index'
+import { IQuality, IColor, IPixel } from '../../types'
 
 type ColorDimension = 'r' | 'g' | 'b'
 
