@@ -19,7 +19,9 @@ export class Color {
 
   static delta(c1: Color, c2: Color): u32 {
     return <u32>(
-      (Math.abs(c1.r - c1.r) + Math.abs(c1.g - c2.g) + Math.abs(c1.b - c2.b))
+      (Math.abs(<i32>c1.r - <i32>c1.r) +
+        Math.abs(<i32>c1.g - <i32>c2.g) +
+        Math.abs(<i32>c1.b - <i32>c2.b))
     )
   }
 

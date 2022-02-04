@@ -1,7 +1,7 @@
 {
   "scripts": {
     "asbuild:untouched": "asc assembly/index.ts --target debug --exportRuntime",
-    "asbuild:optimized": "asc assembly/index.ts --target release",
+    "asbuild:optimized": "asc assembly/index.ts --target release --exportRuntime",
     "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized",
     "dev": "npm run asbuild:untouched && node tests",
     "test": "node tests"

@@ -4,7 +4,7 @@ import { ColorVolume } from './ColorVolume'
 declare function warn(arg0: string): void
 
 class MainColor {
-  delta: number
+  delta: u32
   color: Color
 }
 
