@@ -10,37 +10,54 @@ export class Color implements IColor {
 
   static bit: number = 5
 
-  static compose (color: IColor): number {
+  static compose(color: IColor): number {
     return (color.r << (2 * Color.bit)) + (color.g << Color.bit) + color.b
   }
 
-  static delta (c1: IColor, c2: IColor): number {
+  static delta(c1: IColor, c2: IColor): number {
     return Math.abs(c1.r - c1.r) + Math.abs(c1.g - c2.g) + Math.abs(c1.b - c2.b)
   }
 
-  constructor (r: number = 0, g: number = 0, b: number = 0) {
+  static formHex(hex: number) {
+    function hexToRgb(hex: string) {
+      var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+      return result
+        ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16),
+          }
+        : null
+    }
+
+    const c = hexToRgb(hex.toString(16).padStart(6, '0'))
+
+    return new Color(c?.r, c?.g, c?.b)
+  }
+
+  constructor(r: number = 0, g: number = 0, b: number = 0) {
     this.r = r
     this.g = g
     this.b = b
   }
 
-  get hex (): string {
+  get hex(): string {
     return '#' + this.toString()
   }
 
-  get rgb (): string {
+  get rgb(): string {
     return `rgb(${this.r}, ${this.g}, ${this.b})`
   }
 
-  toString (): string {
+  toString(): string {
     return this.r.toString(16) + this.g.toString(16) + this.b.toString(16)
   }
 
-  delta (color: IColor): number {
+  delta(color: IColor): number {
     return Color.delta(this, color)
   }
 
-  get compose (): number {
+  get compose(): number {
     return Color.compose(this)
   }
 }
@@ -49,19 +66,19 @@ class ColorVolume {
   private pixels: IPixel[] = []
   private _length: number = 0
 
-  constructor (pixels?: IPixel[], length = 0) {
+  constructor(pixels?: IPixel[], length = 0) {
     if (!pixels) return
 
     this.pixels = pixels
     this._length = length
   }
 
-  fromColors (colors: Color[]): ColorVolume {
+  fromColors(colors: Color[]): ColorVolume {
     if (!colors) return this
 
     this._length = colors.length
 
-    colors.forEach(color => {
+    colors.forEach((color) => {
       const index = color.compose
       const pixel = this.pixels[index]
 
@@ -75,20 +92,20 @@ class ColorVolume {
     return this
   }
 
-  private iterPixels (func: (pixel: IPixel) => void) {
-    Object.keys(this.pixels).forEach(key => {
+  private iterPixels(func: (pixel: IPixel) => void) {
+    Object.keys(this.pixels).forEach((key) => {
       func(this.pixels[key as any])
     })
   }
 
-  get length () {
+  get length() {
     return this._length
   }
 
-  mainColor (): Color {
+  mainColor(): Color {
     const avg: IColor = { r: 0, g: 0, b: 0 }
 
-    this.iterPixels(pixel => {
+    this.iterPixels((pixel) => {
       avg.r += pixel.num * pixel.color.r
       avg.g += pixel.num * pixel.color.g
       avg.b += pixel.num * pixel.color.b
@@ -101,15 +118,15 @@ class ColorVolume {
     return new Color(avg.r, avg.g, avg.b)
   }
 
-  private deltaDimension () {
+  private deltaDimension() {
     let dimension: ColorDimension = 'b'
     const max: Color = new Color(0, 0, 0)
     const min: Color = new Color(255, 255, 255)
 
     const dimensions = ['r', 'g', 'b'] as const
 
-    this.iterPixels(pixel => {
-      dimensions.forEach(d => {
+    this.iterPixels((pixel) => {
+      dimensions.forEach((d) => {
         max[d] = Math.max(max[d], pixel.color[d])
         min[d] = Math.min(min[d], pixel.color[d])
       })
@@ -125,11 +142,11 @@ class ColorVolume {
 
     return {
       dimension,
-      middle: (max[dimension] + min[dimension]) / 2
+      middle: (max[dimension] + min[dimension]) / 2,
     }
   }
 
-  cutWithDimension () {
+  cutWithDimension() {
     interface IPixelCount {
       length: number
       pixels: IPixel[]
@@ -139,7 +156,7 @@ class ColorVolume {
     const left: IPixelCount = { length: 0, pixels: [] }
     const right: IPixelCount = { length: 0, pixels: [] }
 
-    this.iterPixels(pixel => {
+    this.iterPixels((pixel) => {
       if (pixel.color[dimension] > middle) {
         right.length += pixel.num
         right.pixels.push(pixel)
@@ -151,7 +168,7 @@ class ColorVolume {
 
     return {
       right: new ColorVolume(right.pixels, right.length),
-      left: new ColorVolume(left.pixels, left.length)
+      left: new ColorVolume(left.pixels, left.length),
     }
   }
 }
@@ -165,7 +182,7 @@ class MMCQ {
    * @param img
    * @param imageQuality 0.1 - 1
    */
-  constructor (img: HTMLImageElement, imageQuality: number = 0.5) {
+  constructor(img: HTMLImageElement, imageQuality: number = 0.5) {
     const data = getImageData(img, imageQuality)
 
     for (let i = 0, max = data.length; i < max; i += 4) {
@@ -182,7 +199,7 @@ class MMCQ {
    * @param length 1 - 254
    * @param quality 1 - 8
    */
-  getPalette (length: number, quality: number = 5): Color[] {
+  getPalette(length: number, quality: number = 5): Color[] {
     Color.bit = quality
 
     let lastLength = 0
@@ -208,12 +225,12 @@ class MMCQ {
       }
     }
 
-    const avgColors = this.volumes.slice(0, length).map(v => v.mainColor())
+    const avgColors = this.volumes.slice(0, length).map((v) => v.mainColor())
 
     return this.getSimilarPalette(avgColors)
   }
 
-  getSimilarPalette (avgColors: Color[]): Color[] {
+  getSimilarPalette(avgColors: Color[]): Color[] {
     const colorNumber = avgColors.length
 
     interface IMainColor {
@@ -226,11 +243,11 @@ class MMCQ {
     for (let i = 0; i < colorNumber; i++) {
       colors[i] = {
         delta: 255 * 3,
-        color: new Color()
+        color: new Color(),
       }
     }
 
-    this.pixels.forEach(pixel => {
+    this.pixels.forEach((pixel) => {
       for (let i = 0; i < colorNumber; i++) {
         const mainColor = colors[i]
         const delta = Color.delta(pixel, avgColors[i])
@@ -241,14 +258,14 @@ class MMCQ {
         }
       }
     })
-    return colors.map(c => c.color)
+    return colors.map((c) => c.color)
   }
 }
 
-function getPalette (
+function getPalette(
   img: HTMLImageElement,
   length: number,
-  quality: IQuality
+  quality: IQuality,
 ): Color[] {
   const mmcq = new MMCQ(img, quality.image)
   // window['mmcq'] = mmcq;

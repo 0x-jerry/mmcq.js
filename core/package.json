@@ -6,10 +6,8 @@
     "dev": "npm run asbuild:untouched && node tests",
     "test": "node tests"
   },
-  "dependencies": {
-    "@assemblyscript/loader": "^0.19.22"
-  },
   "devDependencies": {
+    "@assemblyscript/loader": "^0.19.22",
     "assemblyscript": "^0.19.22",
     "sharp": "^0.30.0"
   }

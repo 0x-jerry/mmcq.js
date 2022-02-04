@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import getPalette, { Color } from './lib/core'
+import './as/as.ts'
+import { getImageData } from './lib/utils'
+import { getImagePalette } from './as/as'
 
 function App() {
   const len = 8
@@ -14,6 +17,7 @@ function App() {
     len,
     algorithm: 1,
     image: 0.1,
+    webAssembly: false,
   })
 
   const [spendTime, setSpendTime] = useState(0)
@@ -23,9 +27,18 @@ function App() {
     .map((_, i) => `./images/${i + 1}.jpg`)
 
   function handleImageClick(e: React.MouseEvent<HTMLImageElement>) {
+    const target = e.target as HTMLImageElement
+    if (configs.webAssembly) {
+      useWebAssembly(target)
+    } else {
+      getImagePalette1(target)
+    }
+  }
+
+  function getImagePalette1(target: HTMLImageElement) {
     const time = new Date()
 
-    const colors = getPalette(e.target as HTMLImageElement, configs.len, {
+    const colors = getPalette(target, configs.len, {
       algorithm: configs.algorithm,
       image: configs.image,
     })
@@ -33,6 +46,20 @@ function App() {
     const endTime = new Date()
 
     setColors(colors)
+    setSpendTime(endTime.getTime() - time.getTime())
+  }
+
+  async function useWebAssembly(target: HTMLImageElement) {
+    const time = new Date()
+
+    const data = getImageData(target, configs.image)
+
+    const colors =
+      (await getImagePalette(data, configs.len, configs.algorithm)) || []
+
+    const endTime = new Date()
+
+    setColors(colors.map((n) => Color.formHex(n)))
     setSpendTime(endTime.getTime() - time.getTime())
   }
 
@@ -48,6 +75,15 @@ function App() {
       <h1 className="title">Img Color Palette Demo</h1>
 
       <div className="settings">
+        <label className="setting">
+          <input
+            type="checkbox"
+            onChange={() =>
+              setConfigs({ ...configs, webAssembly: !configs.webAssembly })
+            }
+          ></input>
+          web assembly
+        </label>
         <span className="setting">
           algorithm complexity:
           <input

@@ -4,6 +4,7 @@ importers:
 
   .:
     specifiers:
+      '@assemblyscript/loader': ^0.19.22
       '@types/node': ^17.0.14
       '@types/react': ^17.0.39
       '@types/react-dom': ^17.0.11
@@ -16,6 +17,7 @@ importers:
       react: registry.npmmirror.com/react/17.0.2
       react-dom: registry.npmmirror.com/react-dom/17.0.2_react@17.0.2
     devDependencies:
+      '@assemblyscript/loader': registry.npmmirror.com/@assemblyscript/loader/0.19.22
       '@types/node': registry.npmmirror.com/@types/node/17.0.14
       '@types/react': registry.npmmirror.com/@types/react/17.0.39
       '@types/react-dom': registry.npmmirror.com/@types/react-dom/17.0.11
@@ -28,9 +30,8 @@ importers:
       '@assemblyscript/loader': ^0.19.22
       assemblyscript: ^0.19.22
       sharp: ^0.30.0
-    dependencies:
-      '@assemblyscript/loader': registry.npmmirror.com/@assemblyscript/loader/0.19.22
     devDependencies:
+      '@assemblyscript/loader': registry.npmmirror.com/@assemblyscript/loader/0.19.22
       assemblyscript: registry.npmmirror.com/assemblyscript/0.19.22
       sharp: registry.npmmirror.com/sharp/0.30.0
 
@@ -50,7 +51,7 @@ packages:
     resolution: {integrity: sha512-ksrMVpPOatD7ZzXCw+c/g3zId5rm8MMnQe7P32dH/qtDrgT9SbQjJYEngRP0YhRF0qrBCga2PtpID7arqphGyg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@assemblyscript/loader/-/loader-0.19.22.tgz}
     name: '@assemblyscript/loader'
     version: 0.19.22
-    dev: false
+    dev: true
 
   registry.npmmirror.com/@babel/code-frame/7.16.7:
     resolution: {integrity: sha512-iAXqUn8IIeBTNd72xsFlgaXHkMBMt6y4HJp1tIaK465CWLT/fG1aqB7ykr95gHHmlBdGbFeWWfyB4NJJ0nmeIg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@babel/code-frame/-/code-frame-7.16.7.tgz}
