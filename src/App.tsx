@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import getPalette, { Color } from './lib/core'
+import getPalette from './lib/core'
+import { Color } from './lib/Color'
 import './as/as.ts'
 import { getImageData } from './lib/utils'
 import { getImagePalette } from './as/as'

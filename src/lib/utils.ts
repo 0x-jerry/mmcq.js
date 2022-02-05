@@ -3,12 +3,14 @@ canvas.style.display = 'none'
 
 document.body.append(canvas)
 
-function getImageData (
+function getImageData(
   image: HTMLImageElement,
-  imageQuality: number
+  imageQuality: number,
 ): Uint8ClampedArray {
   canvas.width = image.naturalWidth * imageQuality
   canvas.height = image.naturalHeight * imageQuality
+  canvas.style.width = canvas.width + 'px'
+  canvas.style.height = canvas.height + 'px'
 
   const ctx = canvas.getContext('2d')
 
