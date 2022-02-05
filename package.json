@@ -5,6 +5,7 @@
   "typings": "types/index.d.ts",
   "scripts": {
     "dev": "vite",
+    "wasm": "wasm-pack ./img_color_palette --target web",
     "build": "yarn build:lib && yarn build:docs",
     "build:lib": "vite build --mode lib",
     "build:docs": "vite build",
