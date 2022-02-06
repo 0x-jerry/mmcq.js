@@ -15,7 +15,7 @@ pub struct Volume {
 }
 
 impl Volume {
-  pub fn mainColor(&self) -> Color {
+  pub fn get_main_color(&self) -> Color {
     let mut r: u32 = 0;
     let mut g: u32 = 0;
     let mut b: u32 = 0;

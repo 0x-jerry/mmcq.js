@@ -8,9 +8,12 @@
 
 <body>
   <script type="module">
-    import init, { greet } from './pkg/img_color_palette.js'
+    import init, { mmcq } from './pkg/img_color_palette.js'
     init().then(() => {
-      greet("WebAssembly with NPM");
+      const c = '1234'.repeat(100).split('').map(n => +n)
+
+      const r = mmcq(c, 4);
+      console.log(r)
     })
   </script>
 </body>
