@@ -29,7 +29,7 @@ jobs:
           key: ${{ runner.os }}-node${{ matrix.node }}-${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - name: Install pnpm
-        run: curl -f https://get.pnpm.io/v6.14.js | node - add --global pnpm@6
+        run: curl -f https://get.pnpm.io/v6.js | node - add --global pnpm@6
 
       - run: pnpm i
       - run: pnpm run wasm
