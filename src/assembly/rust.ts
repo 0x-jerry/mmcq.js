@@ -1,4 +1,4 @@
-import init, { mmcq } from '../../assembly-rust/pkg/img_color_palette'
+import init, { mmcq } from '../../assembly-rust/pkg/mmcq'
 
 const p = init()
 
