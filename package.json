@@ -1,27 +1,26 @@
 {
-  "name": "img-color-palette",
-  "version": "0.2.3",
-  "main": "dist/img-color-palette.cjs.js",
-  "typings": "types/index.d.ts",
-  "scripts": {
-    "dev": "npm run wasm:dev && vite",
-    "wasm": "wasm-pack build ./assembly-rust --target web",
-    "wasm:dev": "wasm-pack build ./assembly-rust --target web --dev",
-    "build": "vite build --mode lib",
-    "build:docs": "vite build",
-    "lint": "eslint src/**/*.ts *.js --fix"
-  },
-  "files": [
-    "dist",
-    "types"
-  ],
-  "repository": "https://github.com/0x-jerry/img-color-palette.git",
+  "name": "mmcq.js",
+  "version": "1.0.0",
+  "main": "dist/core.js",
+  "typings": "dist/core.d.ts",
+  "repository": "https://github.com/0x-jerry/mmcq.js.git",
   "author": "Jerry Wang <x.jerry.wang@gmail.com>",
   "license": "MIT",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
+  "scripts": {
+    "dev": "npm run wasm:dev && vite",
+    "wasm": "wasm-pack build ./assembly-rust --target web",
+    "wasm:dev": "wasm-pack build ./assembly-rust --target web --dev",
+    "build": "tsup src/lib/core.ts --dts",
+    "build:docs": "vite build",
+    "lint": "eslint src/**/*.ts *.js --fix"
+  },
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
@@ -31,6 +30,7 @@
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
     "@vitejs/plugin-react": "^1.1.4",
+    "tsup": "^5.11.13",
     "typescript": "^4.5.5",
     "vite": "^2.7.13"
   }
