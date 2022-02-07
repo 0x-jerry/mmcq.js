@@ -42,7 +42,7 @@ impl Volume {
     volume
   }
 
-  pub fn get_main_color(&self) -> Color {
+  pub fn get_max_count_color(&self) -> Color {
     let mut color = Color::new(0, 0, 0);
     if self.size == 0 {
       return color;
@@ -58,6 +58,50 @@ impl Volume {
     }
 
     color
+  }
+
+  pub fn get_main_color(&self) -> Color {
+    if self.size == 0 {
+      return Color::new(0, 0, 0);
+    }
+
+    let mut r: u32 = 0;
+    let mut g: u32 = 0;
+    let mut b: u32 = 0;
+
+    for pixel in self.pixels.values() {
+      r = r + pixel.color.r() as u32 * pixel.count;
+      g = g + pixel.color.g() as u32 * pixel.count;
+      b = b + pixel.color.g() as u32 * pixel.count;
+    }
+
+    let r = (r / self.size) as u8;
+    let g = (g / self.size) as u8;
+    let b = (b / self.size) as u8;
+
+    let color = Color::new(r, g, b);
+
+    color
+  }
+
+  pub fn get_similar_color(&self, color: &Color) -> Color {
+    let mut similar_color = *color;
+    let mut delta: i16 = 0xff * 3;
+
+    for pixel in self.pixels.values() {
+      let dr = (pixel.color.r() as i16 - color.r() as i16).abs();
+      let dg = (pixel.color.g() as i16 - color.g() as i16).abs();
+      let db = (pixel.color.b() as i16 - color.b() as i16).abs();
+
+      let d = dr + dg + db;
+
+      if d < delta {
+        similar_color = pixel.color;
+        delta = d;
+      }
+    }
+
+    similar_color
   }
 
   pub fn split(&self, bit: u8) -> (Volume, Volume) {

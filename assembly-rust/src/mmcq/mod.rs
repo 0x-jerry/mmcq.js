@@ -44,7 +44,7 @@ pub fn get_palette(colors: &[Color], color_count: u8, algorithm: u8) -> Vec<Colo
     log(&format!("size: {}", volume.size));
 
     if main_colors.len() < color_count as usize {
-      main_colors.push(volume.get_main_color());
+      main_colors.push(volume.get_max_count_color());
     }
   }
 
