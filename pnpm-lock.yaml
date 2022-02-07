@@ -25,7 +25,10 @@ importers:
       typescript: registry.npmmirror.com/typescript/4.5.5
       vite: registry.npmmirror.com/vite/2.7.13
 
-  core:
+  assembly-rust/pkg:
+    specifiers: {}
+
+  assembly-script:
     specifiers:
       '@assemblyscript/loader': ^0.19.22
       assemblyscript: ^0.19.22
@@ -614,7 +617,7 @@ packages:
     name: color-string
     version: 1.9.0
     dependencies:
-      color-name: registry.npmmirror.com/color-name/1.1.3
+      color-name: registry.npmmirror.com/color-name/1.1.4
       simple-swizzle: registry.npmmirror.com/simple-swizzle/0.2.2
     dev: true
 
@@ -1576,7 +1579,7 @@ packages:
     name: tunnel-agent
     version: 0.6.0
     dependencies:
-      safe-buffer: registry.npmmirror.com/safe-buffer/5.1.2
+      safe-buffer: registry.npmmirror.com/safe-buffer/5.2.1
     dev: true
 
   registry.npmmirror.com/typescript/4.5.5:
