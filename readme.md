@@ -2,7 +2,7 @@
 
 > `MMCQ (modified median cut quantization)`, the name is from Leptonica library (http://www.leptonica.com/).
 
-提取颜色主色调，仅支持浏览器 (Extract image main color, only support browser)
+提取颜色主色调，仅支持浏览器 (Extract prominent colors from image, only support browser)
 
 仅 300 行不到的代码，且零依赖。(< 300 lines source code, zero dependency)
 
@@ -21,7 +21,7 @@ npm install img-color-palette
 ## 用法 (Usage)
 
 ```js
-import getPalette from 'img-color-palette'
+import getPalette from 'mmcq.js'
 const img = document.getElementById('img-id')
 
 const colors = getPalette(img, 8, {
