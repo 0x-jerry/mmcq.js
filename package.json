@@ -5,8 +5,8 @@
   "typings": "types/index.d.ts",
   "scripts": {
     "dev": "vite",
-    "wasm": "wasm-pack build ./img_color_palette --target web",
-    "wasm:dev": "wasm-pack build ./img_color_palette --target web --dev",
+    "wasm": "wasm-pack build ./assembly-rust --target web",
+    "wasm:dev": "wasm-pack build ./assembly-rust --target web --dev",
     "build": "yarn build:lib && yarn build:docs",
     "build:lib": "vite build --mode lib",
     "build:docs": "vite build",

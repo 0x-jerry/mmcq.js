@@ -1,4 +1,4 @@
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub struct Color {
   data: [u8; 3],
 }
@@ -24,10 +24,6 @@ impl Color {
     self.data[idx]
   }
 
-  pub fn compose_default(&self) -> u32 {
-    return self.compose(5);
-  }
-
   pub fn compose(&self, bit: u8) -> u32 {
     let r: u32 = self.r() as u32;
     let g: u32 = self.g() as u32;
@@ -47,6 +43,6 @@ mod tests {
     assert_eq!(c.r(), 1);
     assert_eq!(c.g(), 2);
     assert_eq!(c.b(), 3);
-    assert_eq!(c.compose_default(), 1091);
+    assert_eq!(c.compose(5), 1091);
   }
 }

@@ -1,36 +1,14 @@
 mod color;
 mod volume;
 
-use std::collections::HashMap;
+use crate::log;
 
 pub use color::Color;
 pub use volume::Pixel;
 pub use volume::Volume;
 
-pub fn get_palette(colors: &[u8], color_count: u8) -> Vec<Color> {
-  let mut i = 0;
-
-  let mut volume = Volume {
-    pixels: HashMap::new(),
-    size: 0,
-  };
-
-  while i + 4 < colors.len() {
-    let r = colors[i];
-    let g = colors[i + 1];
-    let b = colors[i + 2];
-
-    let pixel = Pixel {
-      color: Color::new(r, g, b),
-      count: 1,
-    };
-
-    volume.pixels.insert(0, pixel);
-
-    i += 4;
-  }
-
-  volume.size = colors.len() as u32;
+pub fn get_palette(colors: &[u8], color_count: u8, algorithm: u8) -> Vec<Color> {
+  let volume = Volume::from_colors(colors, algorithm);
 
   let mut volumes: Vec<Volume> = vec![];
 
@@ -42,7 +20,10 @@ pub fn get_palette(colors: &[u8], color_count: u8) -> Vec<Color> {
     let mut new_volume = vec![];
 
     for item in volumes.iter() {
-      let (left, right) = item.split();
+      log(&format!("volumes size: {}", item.size));
+
+      let (left, right) = item.split(algorithm);
+
       new_volume.push(left);
       new_volume.push(right);
     }

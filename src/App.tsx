@@ -18,7 +18,7 @@ function App() {
     len,
     algorithm: 1,
     image: 0.1,
-    webAssembly: false,
+    webAssembly: true,
   })
 
   const [spendTime, setSpendTime] = useState(0)
@@ -79,6 +79,7 @@ function App() {
         <label className="setting">
           <input
             type="checkbox"
+            checked={configs.webAssembly}
             onChange={() =>
               setConfigs({ ...configs, webAssembly: !configs.webAssembly })
             }

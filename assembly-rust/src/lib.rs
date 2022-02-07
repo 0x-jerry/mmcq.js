@@ -1,4 +1,5 @@
 use wasm_bindgen::prelude::*;
+use wasm_bindgen::Clamped;
 
 mod mmcq;
 
@@ -21,12 +22,10 @@ extern "C" {
 }
 
 #[wasm_bindgen]
-pub fn mmcq(colors: JsValue, color_count: u8) -> JsValue {
-  let colors: Vec<u8> = colors.into_serde().unwrap();
+pub fn mmcq(colors: Clamped<Vec<u8>>, color_count: u8, algorithm: u8) -> JsValue {
+  let main_colors = mmcq::get_palette(&colors, color_count, algorithm);
 
-  log(&format!("{:?}", &colors));
-
-  let main_colors = mmcq::get_palette(&colors, color_count);
+  log(&format!("{:?}", &main_colors));
 
   let mut export_colors = vec![];
 
