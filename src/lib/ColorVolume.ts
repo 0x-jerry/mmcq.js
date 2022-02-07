@@ -97,12 +97,17 @@ export class ColorVolume {
     const right: IPixelCount = { size: 0, pixels: new Map() }
 
     for (const pixel of this.#pixels.values()) {
-      if (pixel.color[dimension] > middle) {
-        right.size += pixel.num
-        right.pixels.set(pixel.color.compose, pixel)
+      let idx = pixel.color.compose
+
+      let next = pixel.color[dimension] > middle ? right : left
+
+      next.size += pixel.num
+
+      if (next.pixels.has(idx)) {
+        let x = next.pixels.get(idx)!
+        x.num += pixel.num
       } else {
-        left.size += pixel.num
-        left.pixels.set(pixel.color.compose, pixel)
+        next.pixels.set(pixel.color.compose, pixel)
       }
     }
 

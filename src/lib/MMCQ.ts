@@ -28,8 +28,6 @@ export class MMCQ {
   getPalette(length: number, quality: number = 5): Color[] {
     Color.bit = quality
 
-    let lastLength = 0
-
     while (this.volumes.length < length) {
       const newVolumes: ColorVolume[] = []
 
@@ -41,14 +39,12 @@ export class MMCQ {
         if (right.size !== 0) newVolumes.push(right)
       }
 
-      this.volumes = newVolumes.sort((a, b) => b.size - a.size)
-
-      if (lastLength === this.volumes.length) {
+      if (newVolumes.length === this.volumes.length) {
         console.warn('too small pixels')
         break
-      } else {
-        lastLength = this.volumes.length
       }
+
+      this.volumes = newVolumes.sort((a, b) => b.size - a.size)
     }
 
     const avgColors = this.volumes.slice(0, length).map((v) => v.mainColor())

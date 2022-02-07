@@ -7,35 +7,42 @@ pub use color::Color;
 pub use volume::Pixel;
 pub use volume::Volume;
 
-pub fn get_palette(colors: &[u8], color_count: u8, algorithm: u8) -> Vec<Color> {
+pub fn get_palette(colors: &[Color], color_count: u8, algorithm: u8) -> Vec<Color> {
+  let mut volumes = vec![];
+
   let volume = Volume::from_colors(colors, algorithm);
-
-  let mut volumes: Vec<Volume> = vec![];
-
   volumes.push(volume);
 
-  let mut size = volumes.len();
+  while volumes.len() < color_count as usize {
+    let mut new_volumes = vec![];
 
-  while size < color_count as usize {
-    let mut new_volume = vec![];
+    for volume in &volumes {
+      let (left, right) = volume.split(algorithm);
 
-    for item in volumes.iter() {
-      log(&format!("volumes size: {}", item.size));
+      if left.size > 0 {
+        new_volumes.push(left);
+      }
 
-      let (left, right) = item.split(algorithm);
-
-      new_volume.push(left);
-      new_volume.push(right);
+      if right.size > 0 {
+        new_volumes.push(right);
+      }
     }
 
-    volumes = new_volume;
+    let len = volumes.len();
 
-    size = volumes.len();
+    if new_volumes.len() == len {
+      break;
+    }
+
+    volumes = new_volumes;
+    volumes.sort_by(|a, b| b.size.cmp(&a.size));
   }
 
   let mut main_colors = vec![];
 
   for volume in volumes {
+    log(&format!("size: {}", volume.size));
+
     if main_colors.len() < color_count as usize {
       main_colors.push(volume.get_main_color());
     }

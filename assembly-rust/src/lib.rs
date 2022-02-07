@@ -9,20 +9,11 @@ extern "C" {
   // `log(..)`
   #[wasm_bindgen(js_namespace = console)]
   fn log(s: &str);
-
-  // The `console.log` is quite polymorphic, so we can bind it with multiple
-  // signatures. Note that we need to use `js_name` to ensure we always call
-  // `log` in JS.
-  #[wasm_bindgen(js_namespace = console, js_name = log)]
-  fn log_u32(a: u32);
-
-  // Multiple arguments too!
-  #[wasm_bindgen(js_namespace = console, js_name = log)]
-  fn log_many(a: &str, b: &str);
 }
 
 #[wasm_bindgen]
 pub fn mmcq(colors: Clamped<Vec<u8>>, color_count: u8, algorithm: u8) -> JsValue {
+  let colors = get_colors_from_bytes(&colors);
   let main_colors = mmcq::get_palette(&colors, color_count, algorithm);
 
   log(&format!("{:?}", &main_colors));
@@ -34,4 +25,23 @@ pub fn mmcq(colors: Clamped<Vec<u8>>, color_count: u8, algorithm: u8) -> JsValue
   }
 
   JsValue::from_serde(&export_colors).unwrap()
+}
+
+fn get_colors_from_bytes(bytes: &[u8]) -> Vec<mmcq::Color> {
+  let mut colors = vec![];
+
+  let mut i = 0;
+  let max_len = bytes.len();
+
+  while i + 4 < max_len {
+    let r = bytes[i];
+    let g = bytes[i + 1];
+    let b = bytes[i + 2];
+
+    colors.push(mmcq::Color::new(r, g, b));
+
+    i += 4;
+  }
+
+  colors
 }
