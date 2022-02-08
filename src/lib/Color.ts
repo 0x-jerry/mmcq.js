@@ -15,7 +15,7 @@ export class Color {
 
   static delta(c1: Color, c2: Color): number {
     return (
-      Math.abs(c1.r - c1.r) ** 2 +
+      Math.abs(c1.r - c2.r) ** 2 +
       Math.abs(c1.g - c2.g) ** 2 +
       Math.abs(c1.b - c2.b) ** 2
     )

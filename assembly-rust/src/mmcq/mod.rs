@@ -63,11 +63,11 @@ pub fn get_palette(colors: &[Color], color_count: u8, algorithm: u8) -> Vec<Colo
   for &color in colors {
     for (idx, s_color) in similar_colors.iter_mut().enumerate() {
       if let Some(main_color) = main_colors.get(idx) {
-        let d1 = color.delta_arr(&main_color);
+        let delta = color.delta_arr(&main_color);
 
-        if d1 < s_color.delta {
+        if delta < s_color.delta {
           s_color.color = color;
-          s_color.delta = d1;
+          s_color.delta = delta;
         }
       }
     }
