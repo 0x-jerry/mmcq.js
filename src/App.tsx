@@ -91,7 +91,10 @@ function App() {
 
   return (
     <div className="app">
-      <h1 className="title">Img Color Palette Demo</h1>
+      <h1 className="title">
+        <a href="https://github.com/0x-jerry/mmcq.js">MMCQ.JS</a>
+        Demo
+      </h1>
 
       <div className="settings">
         <span className="setting">
