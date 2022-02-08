@@ -14,28 +14,24 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install wasm-pack
-        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-
       - name: Use Node.js ${{ matrix.node }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
 
-      - name: Cache .pnpm-store
-        uses: actions/cache@v2
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-node${{ matrix.node }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-
-      - name: Cache .cargo
+      - name: Cache .pnpm-store & .cargo
         uses: actions/cache@v2
         with:
           path: |
+            ~/.pnpm-store
             ~/.cargo/registry
             ~/.cargo/git
-            target
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+            assembly-rust/target
+
+          key: ${{ runner.os }}-node${{ matrix.node }}-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/Cargo.toml') }}
+
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Install pnpm
         run: curl -f https://get.pnpm.io/v6.js | node - add --global pnpm@6
