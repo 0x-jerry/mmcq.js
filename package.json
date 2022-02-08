@@ -1,8 +1,8 @@
 {
   "name": "mmcq.js",
   "version": "1.0.2",
-  "main": "dist/core.js",
-  "typings": "dist/core.d.ts",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "repository": "https://github.com/0x-jerry/mmcq.js.git",
   "author": "Jerry Wang <x.jerry.wang@gmail.com>",
   "license": "MIT",
@@ -15,7 +15,7 @@
     "dev:wasm": "npm run wasm:dev && vite",
     "wasm": "wasm-pack build ./assembly-rust --target web",
     "wasm:dev": "wasm-pack build ./assembly-rust --target web --dev",
-    "build": "tsup src/lib/index.ts --dts",
+    "build": "tsup src/lib/index.ts --dts --clean",
     "build:docs": "vite build",
     "release": "x-release"
   },
