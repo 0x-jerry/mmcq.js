@@ -1,26 +1,39 @@
 import React, { useState } from 'react'
-import getPalette from './lib/core'
+import { getPalette } from './lib'
 import { Color } from './lib/Color'
-import { getImageData } from './lib/utils'
+import { getImageData } from './utils'
 import { getImagePalette } from './assembly/rust'
+
+interface MMCQResult {
+  time: number
+  colors: Color[]
+}
 
 function App() {
   const len = 8
 
-  const [colors, setColors] = useState(
-    Array(len)
-      .fill(0)
-      .map(() => new Color(255, 255, 255)),
-  )
-
   const [configs, setConfigs] = useState({
     len,
-    algorithm: 1,
     image: 0.1,
-    webAssembly: true,
+    algorithm: 5,
   })
 
-  const [spendTime, setSpendTime] = useState(0)
+  const defaultResult: Record<string, MMCQResult> = {
+    native: {
+      time: 0,
+      colors: Array(len)
+        .fill(0)
+        .map(() => new Color(255, 255, 255)),
+    },
+    webAssembly: {
+      time: 0,
+      colors: Array(len)
+        .fill(0)
+        .map(() => new Color(255, 255, 255)),
+    },
+  }
+
+  const [result, setResult] = useState(defaultResult)
 
   const images = Array(6)
     .fill(0)
@@ -28,39 +41,42 @@ function App() {
 
   function handleImageClick(e: React.MouseEvent<HTMLImageElement>) {
     const target = e.target as HTMLImageElement
-    if (configs.webAssembly) {
-      useWebAssembly(target)
-    } else {
-      getImagePalette1(target)
-    }
-  }
-
-  function getImagePalette1(target: HTMLImageElement) {
-    const time = new Date()
-
-    const colors = getPalette(target, configs.len, {
-      algorithm: configs.algorithm,
-      image: configs.image,
-    })
-
-    const endTime = new Date()
-
-    setColors(colors)
-    setSpendTime(endTime.getTime() - time.getTime())
-  }
-
-  async function useWebAssembly(target: HTMLImageElement) {
-    const time = new Date()
-
     const data = getImageData(target, configs.image)
 
-    const colors =
-      (await getImagePalette(data, configs.len, configs.algorithm)) || []
+    useNative(data)
+    useWebAssembly(data)
+  }
 
-    const endTime = new Date()
+  function useNative(data: Uint8ClampedArray) {
+    const time = Date.now()
 
-    setColors(colors.map((n) => Color.formHex(n)))
-    setSpendTime(endTime.getTime() - time.getTime())
+    const colors = getPalette(data, configs.len, configs.algorithm)
+
+    const endTime = Date.now()
+
+    setResult((result) => ({
+      ...result,
+      native: {
+        colors,
+        time: endTime - time,
+      },
+    }))
+  }
+
+  async function useWebAssembly(data: Uint8ClampedArray) {
+    const time = Date.now()
+
+    const colors = await getImagePalette(data, configs.len, configs.algorithm)
+
+    const endTime = Date.now()
+
+    setResult((result) => ({
+      ...result,
+      webAssembly: {
+        colors: colors.map((n) => Color.formHex(n)),
+        time: endTime - time,
+      },
+    }))
   }
 
   function handleInputChanged(
@@ -75,23 +91,13 @@ function App() {
       <h1 className="title">Img Color Palette Demo</h1>
 
       <div className="settings">
-        <label className="setting">
-          <input
-            type="checkbox"
-            checked={configs.webAssembly}
-            onChange={() =>
-              setConfigs({ ...configs, webAssembly: !configs.webAssembly })
-            }
-          ></input>
-          web assembly
-        </label>
         <span className="setting">
           algorithm complexity:
           <input
             type="range"
             style={{ width: '200px' }}
             value={configs.algorithm}
-            min="1"
+            min="3"
             max="8"
             onChange={(e) => handleInputChanged(e, 'algorithm')}
           />
@@ -110,18 +116,22 @@ function App() {
           />
           {configs.image.toFixed(1)}
         </span>
-        <span className="setting">spend time: {spendTime} ms</span>
       </div>
 
       <div className="divider" />
-      <div className="colors">
-        {colors.map((color, i) => (
-          <div className="color-box" key={`color${i}`}>
-            <div className="color" style={{ backgroundColor: color.hex }} />
-            <div className="desc title">{color.hex.toUpperCase()}</div>
+      {Object.entries(result).map(([name, result]) => (
+        <div className="colors">
+          {result.colors.map((color, i) => (
+            <div className="color-box" key={`color${i}`}>
+              <div className="color" style={{ backgroundColor: color.hex }} />
+              <div className="desc title">{color.hex.toUpperCase()}</div>
+            </div>
+          ))}
+          <div style={{ width: 100, flex: 1 }}>
+            {name}: {result.time}
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
 
       <div className="divider" />
       <div className="imgs">

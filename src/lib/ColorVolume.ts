@@ -8,21 +8,30 @@ export interface PixelCount {
 export class ColorVolume {
   #pixels: Map<number, PixelCount> = new Map()
   #size: number = 0
+  #bit: number
 
-  constructor(pixels?: Map<number, PixelCount>, count = 0) {
+  constructor(bit: number, pixels?: Map<number, PixelCount>, count = 0) {
+    this.#bit = bit
+
     if (!pixels) return
 
     this.#pixels = pixels
     this.#size = count
   }
 
-  static fromColors(colors: Color[]): ColorVolume {
-    if (!colors) return new ColorVolume()
+  /**
+   *
+   * @param colors
+   * @param bit 1 - 8
+   * @returns
+   */
+  static fromColors(colors: Color[], bit: number): ColorVolume {
+    if (!colors) return new ColorVolume(bit)
 
     const pixels: Map<number, PixelCount> = new Map()
 
     colors.forEach((color) => {
-      const index = color.compose
+      const index = color.compose(bit)
 
       if (pixels.has(index)) {
         const pixel = pixels.get(index)!
@@ -35,7 +44,7 @@ export class ColorVolume {
       }
     })
 
-    return new ColorVolume(pixels, colors.length)
+    return new ColorVolume(bit, pixels, colors.length)
   }
 
   get size() {
@@ -97,7 +106,7 @@ export class ColorVolume {
     const right: IPixelCount = { size: 0, pixels: new Map() }
 
     for (const pixel of this.#pixels.values()) {
-      let idx = pixel.color.compose
+      let idx = pixel.color.compose(this.#bit)
 
       let next = pixel.color[dimension] > middle ? right : left
 
@@ -107,13 +116,13 @@ export class ColorVolume {
         let x = next.pixels.get(idx)!
         x.num += pixel.num
       } else {
-        next.pixels.set(pixel.color.compose, pixel)
+        next.pixels.set(idx, pixel)
       }
     }
 
     return {
-      right: new ColorVolume(right.pixels, right.size),
-      left: new ColorVolume(left.pixels, left.size),
+      right: new ColorVolume(this.#bit, right.pixels, right.size),
+      left: new ColorVolume(this.#bit, left.pixels, left.size),
     }
   }
 }

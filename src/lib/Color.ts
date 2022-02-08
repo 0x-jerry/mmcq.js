@@ -5,14 +5,20 @@ export class Color {
   g: number
   b: number
 
-  static bit: number = 5
+  static compose(color: Color, bit: number): number {
+    const r = color.r >> (8 - bit)
+    const g = color.r >> (8 - bit)
+    const b = color.r >> (8 - bit)
 
-  static compose(color: Color): number {
-    return (color.r << (2 * Color.bit)) + (color.g << Color.bit) + color.b
+    return (r << (2 * bit)) + (g << bit) + b
   }
 
   static delta(c1: Color, c2: Color): number {
-    return Math.abs(c1.r - c1.r) + Math.abs(c1.g - c2.g) + Math.abs(c1.b - c2.b)
+    return (
+      Math.abs(c1.r - c1.r) ** 2 +
+      Math.abs(c1.g - c2.g) ** 2 +
+      Math.abs(c1.b - c2.b) ** 2
+    )
   }
 
   static formHex(hex: number) {
@@ -43,8 +49,13 @@ export class Color {
     return Color.delta(this, color)
   }
 
-  get compose(): number {
-    return Color.compose(this)
+  /**
+   *
+   * @param bit 1 - 8
+   * @returns
+   */
+  compose(bit: number): number {
+    return Color.compose(this, bit)
   }
 }
 

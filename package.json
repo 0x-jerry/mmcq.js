@@ -11,7 +11,8 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "npm run wasm:dev && vite",
+    "dev": "vite",
+    "dev:wasm": "npm run wasm:dev && vite",
     "wasm": "wasm-pack build ./assembly-rust --target web",
     "wasm:dev": "wasm-pack build ./assembly-rust --target web --dev",
     "build": "tsup src/lib/core.ts --dts",

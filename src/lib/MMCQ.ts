@@ -4,19 +4,22 @@ import { ColorVolume } from './ColorVolume'
 export class MMCQ {
   private volumes: ColorVolume[] = []
   private pixels: Color[] = []
+  #bit: number
 
   /**
    *
    * @param img
    * @param imageQuality 0.1 - 1
    */
-  constructor(data: Uint8ClampedArray) {
+  constructor(data: Uint8ClampedArray, bit: number) {
+    this.#bit = bit
+
     for (let i = 0, max = data.length; i < max; i += 4) {
       const color = new Color(data[i + 0], data[i + 1], data[i + 2])
       this.pixels.push(color)
     }
 
-    const volume = ColorVolume.fromColors(this.pixels)
+    const volume = ColorVolume.fromColors(this.pixels, this.#bit)
     this.volumes = [volume]
   }
 
@@ -25,9 +28,7 @@ export class MMCQ {
    * @param length 1 - 254
    * @param quality 1 - 8
    */
-  getPalette(length: number, quality: number = 5): Color[] {
-    Color.bit = quality
-
+  getPalette(length: number): Color[] {
     while (this.volumes.length < length) {
       const newVolumes: ColorVolume[] = []
 
