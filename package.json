@@ -17,7 +17,7 @@
     "wasm:dev": "wasm-pack build ./assembly-rust --target web --dev",
     "build": "tsup src/lib/core.ts --dts",
     "build:docs": "vite build",
-    "lint": "eslint src/**/*.ts *.js --fix"
+    "release": "x-release"
   },
   "files": [
     "dist"
@@ -27,6 +27,7 @@
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
+    "@0x-jerry/x-release": "^0.3.2",
     "@types/node": "^17.0.15",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
