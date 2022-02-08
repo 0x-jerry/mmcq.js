@@ -1,9 +1,9 @@
 use super::color::Color;
+use crate::log;
 
-use std::cmp;
 use std::collections::HashMap;
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub struct Pixel {
   pub color: Color,
   pub count: u32,
@@ -22,17 +22,18 @@ impl Volume {
     };
 
     for color in colors {
-      let pixel = Pixel {
-        color: *color,
-        count: 1,
-      };
-
-      let idx = pixel.color.compose(algorithm);
+      let idx = color.compose(algorithm);
 
       match volume.pixels.get_mut(&idx) {
         Some(x) => x.count += 1,
         None => {
-          volume.pixels.insert(pixel.color.compose(algorithm), pixel);
+          volume.pixels.insert(
+            idx,
+            Pixel {
+              color: *color,
+              count: 1,
+            },
+          );
         }
       }
 
@@ -60,38 +61,35 @@ impl Volume {
     color
   }
 
-  pub fn get_main_color(&self) -> Color {
-    if self.size == 0 {
-      return Color::new(0, 0, 0);
-    }
+  pub fn get_main_color(&self) -> [f32; 3] {
+    let mut avg = [0.0, 0.0, 0.0];
 
-    let mut r: u32 = 0;
-    let mut g: u32 = 0;
-    let mut b: u32 = 0;
+    if self.size == 0 {
+      return avg;
+    }
 
     for pixel in self.pixels.values() {
-      r = r + pixel.color.r() as u32 * pixel.count;
-      g = g + pixel.color.g() as u32 * pixel.count;
-      b = b + pixel.color.g() as u32 * pixel.count;
+      for i in 0..=2 {
+        avg[i] += pixel.color.get(i) as f32 * pixel.count as f32;
+      }
     }
 
-    let r = (r / self.size) as u8;
-    let g = (g / self.size) as u8;
-    let b = (b / self.size) as u8;
+    for i in 0..=2 {
+      avg[i] = avg[i] / self.size as f32;
+    }
 
-    let color = Color::new(r, g, b);
-
-    color
+    avg
   }
 
-  pub fn get_similar_color(&self, color: &Color) -> Color {
-    let mut similar_color = *color;
-    let mut delta: i16 = 0xff * 3;
+  pub fn get_similar_color(&self) -> Color {
+    let color = self.get_main_color();
+    let mut similar_color = Color::new(0, 0, 0);
+    let mut delta: f32 = 255f32.powf(2.0) * 3.0;
 
     for pixel in self.pixels.values() {
-      let dr = (pixel.color.r() as i16 - color.r() as i16).abs();
-      let dg = (pixel.color.g() as i16 - color.g() as i16).abs();
-      let db = (pixel.color.b() as i16 - color.b() as i16).abs();
+      let dr = (pixel.color.r() as f32 - color[0]).powf(2.0);
+      let dg = (pixel.color.g() as f32 - color[1]).powf(2.0);
+      let db = (pixel.color.b() as f32 - color[2]).powf(2.0);
 
       let d = dr + dg + db;
 
@@ -120,7 +118,7 @@ impl Volume {
     for &pixel in self.pixels.values() {
       let idx = pixel.color.compose(bit);
 
-      let next = if pixel.color.get(dimension) > middle {
+      let next = if pixel.color.get(dimension) as f32 > middle {
         &mut right
       } else {
         &mut left
@@ -140,9 +138,9 @@ impl Volume {
   }
 }
 
-fn get_max_dimension(volume: &Volume) -> (usize, u8) {
+fn get_max_dimension(volume: &Volume) -> (usize, f32) {
   if volume.pixels.len() == 0 {
-    return (0, 0);
+    return (0, 0.0);
   }
 
   let mut max: [u8; 3] = [0; 3];
@@ -151,8 +149,8 @@ fn get_max_dimension(volume: &Volume) -> (usize, u8) {
   for pixel in volume.pixels.values() {
     for idx in 0..=2 {
       let color_value = pixel.color.get(idx);
-      max[idx] = cmp::max(color_value, max[idx]);
-      min[idx] = cmp::min(color_value, min[idx]);
+      max[idx] = color_value.max(max[idx]);
+      min[idx] = color_value.min(min[idx]);
     }
   }
 
@@ -168,7 +166,7 @@ fn get_max_dimension(volume: &Volume) -> (usize, u8) {
     2
   };
 
-  let mid = ((max[dimension] as u16 + min[dimension] as u16) / 2) as u8;
+  let mid = (max[dimension] as f32 + min[dimension] as f32) / 2.0;
 
   (dimension, mid)
 }

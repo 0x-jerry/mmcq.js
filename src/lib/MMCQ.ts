@@ -14,8 +14,8 @@ export class MMCQ {
   constructor(data: Uint8ClampedArray, bit: number) {
     this.#bit = bit
 
-    for (let i = 0, max = data.length; i < max; i += 4) {
-      const color = new Color(data[i + 0], data[i + 1], data[i + 2])
+    for (let i = 0; i < data.length; i += 4) {
+      const color = new Color(data[i], data[i + 1], data[i + 2])
       this.pixels.push(color)
     }
 
@@ -48,6 +48,15 @@ export class MMCQ {
       this.volumes = newVolumes.sort((a, b) => b.size - a.size)
     }
 
+    for (const vol of this.volumes) {
+      console.log(
+        '[ts] volumes size:',
+        vol.size,
+        'main color:',
+        vol.mainColor(),
+      )
+    }
+
     const avgColors = this.volumes.slice(0, length).map((v) => v.mainColor())
 
     return this.getSimilarPalette(avgColors)
@@ -65,7 +74,7 @@ export class MMCQ {
 
     for (let i = 0; i < colorNumber; i++) {
       colors[i] = {
-        delta: 255 * 3,
+        delta: 255 ** 2 * 3,
         color: new Color(),
       }
     }

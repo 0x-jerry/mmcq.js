@@ -86,8 +86,12 @@ export class ColorVolume {
     delta.g = max.g - min.g
     delta.b = max.b - min.b
 
-    const maxVal = Math.max(delta.r, delta.g, delta.b)
-    dimension = maxVal === delta.r ? 'r' : maxVal === delta.g ? 'g' : 'b'
+    dimension =
+      delta.r > delta.g && delta.r > delta.b
+        ? 'r'
+        : delta.g > delta.r && delta.g > delta.b
+        ? 'g'
+        : 'b'
 
     return {
       dimension,
@@ -102,6 +106,7 @@ export class ColorVolume {
     }
 
     const { dimension, middle } = this.deltaDimension()
+
     const left: IPixelCount = { size: 0, pixels: new Map() }
     const right: IPixelCount = { size: 0, pixels: new Map() }
 

@@ -7,8 +7,8 @@ export class Color {
 
   static compose(color: Color, bit: number): number {
     const r = color.r >> (8 - bit)
-    const g = color.r >> (8 - bit)
-    const b = color.r >> (8 - bit)
+    const g = color.g >> (8 - bit)
+    const b = color.b >> (8 - bit)
 
     return (r << (2 * bit)) + (g << bit) + b
   }

@@ -1,5 +1,5 @@
-mod color;
-mod volume;
+pub mod color;
+pub mod volume;
 
 use crate::log;
 
@@ -41,12 +41,42 @@ pub fn get_palette(colors: &[Color], color_count: u8, algorithm: u8) -> Vec<Colo
   let mut main_colors = vec![];
 
   for volume in volumes {
-    log(&format!("size: {}", volume.size));
+    log(&format!(
+      "[rust] volume size: {}, color: {:?}",
+      volume.size,
+      volume.get_main_color()
+    ));
 
     if main_colors.len() < color_count as usize {
-      main_colors.push(volume.get_max_count_color());
+      main_colors.push(volume.get_main_color());
     }
   }
 
-  main_colors
+  let mut similar_colors: Vec<SimilarColor> = main_colors
+    .iter()
+    .map(|_| SimilarColor {
+      color: Color::new(0, 0, 0),
+      delta: 255f32.powf(2.0) * 3.0,
+    })
+    .collect();
+
+  for &color in colors {
+    for (idx, s_color) in similar_colors.iter_mut().enumerate() {
+      if let Some(main_color) = main_colors.get(idx) {
+        let d1 = color.delta_arr(&main_color);
+
+        if d1 < s_color.delta {
+          s_color.color = color;
+          s_color.delta = d1;
+        }
+      }
+    }
+  }
+
+  similar_colors.iter().map(|s| s.color).collect()
+}
+
+struct SimilarColor {
+  delta: f32,
+  color: Color,
 }

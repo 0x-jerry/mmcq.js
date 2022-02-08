@@ -39,12 +39,15 @@ function App() {
     .fill(0)
     .map((_, i) => `./images/${i + 1}.jpg`)
 
-  function handleImageClick(e: React.MouseEvent<HTMLImageElement>) {
+  async function handleImageClick(e: React.MouseEvent<HTMLImageElement>) {
     const target = e.target as HTMLImageElement
     const data = getImageData(target, configs.image)
 
     useNative(data)
-    useWebAssembly(data)
+
+    console.log('---------')
+
+    await useWebAssembly(data)
   }
 
   function useNative(data: Uint8ClampedArray) {
@@ -120,7 +123,7 @@ function App() {
 
       <div className="divider" />
       {Object.entries(result).map(([name, result]) => (
-        <div className="colors">
+        <div className="colors" key={name}>
           {result.colors.map((color, i) => (
             <div className="color-box" key={`color${i}`}>
               <div className="color" style={{ backgroundColor: color.hex }} />
