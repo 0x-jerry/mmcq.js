@@ -7,7 +7,7 @@ jobs:
   deploy:
     strategy:
       matrix:
-        os: ['ubuntu-20.04']
+        os: ["ubuntu-20.04"]
         node: [16]
 
     runs-on: ${{ matrix.os }}
@@ -23,10 +23,19 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: Cache .pnpm-store
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.pnpm-store
           key: ${{ runner.os }}-node${{ matrix.node }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - name: Cache .cargo
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Install pnpm
         run: curl -f https://get.pnpm.io/v6.js | node - add --global pnpm@6
