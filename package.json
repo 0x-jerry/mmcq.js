@@ -1,6 +1,6 @@
 {
   "name": "mmcq.js",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "dist/core.js",
   "typings": "dist/core.d.ts",
   "repository": "https://github.com/0x-jerry/mmcq.js.git",
@@ -15,7 +15,7 @@
     "dev:wasm": "npm run wasm:dev && vite",
     "wasm": "wasm-pack build ./assembly-rust --target web",
     "wasm:dev": "wasm-pack build ./assembly-rust --target web --dev",
-    "build": "tsup src/lib/core.ts --dts",
+    "build": "tsup src/lib/index.ts --dts",
     "build:docs": "vite build",
     "release": "x-release"
   },
