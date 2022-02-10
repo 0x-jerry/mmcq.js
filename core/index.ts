@@ -15,6 +15,7 @@ export interface MMCQOption {
    */
   algorithm: number
   /**
+   * not support yet!
    * @default false
    */
   useWebAssembly: boolean
@@ -34,7 +35,9 @@ export async function mmcq(
   }
 
   const opt = Object.assign(defaultOption, option)
-  if (opt.useWebAssembly) {
+
+  // todo: support web assembly
+  if (opt.useWebAssembly && false) {
     const r = await import('./rust')
     const colors = await r.mmcqjs(data, opt)
     return colors.map((n) => Color.formHex(n))
