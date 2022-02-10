@@ -15,7 +15,7 @@
     "dev:wasm": "npm run wasm:dev && vite",
     "wasm": "wasm-pack build ./assembly-rust --target web",
     "wasm:dev": "wasm-pack build ./assembly-rust --target web --dev",
-    "build": "tsup src/lib/index.ts --dts --clean",
+    "build": "tsup core/index.ts --dts --clean",
     "build:docs": "vite build",
     "release": "x-release"
   },

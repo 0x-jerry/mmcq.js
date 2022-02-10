@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { getPalette } from './lib'
-import { Color } from './lib/Color'
+import { mmcq, Color } from '../core'
 import { getImageData } from './utils'
 import { getImagePalette } from './assembly/rust'
 
@@ -13,7 +12,7 @@ function App() {
   const len = 8
 
   const [configs, setConfigs] = useState({
-    len,
+    count: len,
     image: 0.1,
     algorithm: 5,
   })
@@ -50,10 +49,10 @@ function App() {
     await useWebAssembly(data)
   }
 
-  function useNative(data: Uint8ClampedArray) {
+  async function useNative(data: Uint8ClampedArray) {
     const time = Date.now()
 
-    const colors = getPalette(data, configs.len, configs.algorithm)
+    const colors = await mmcq(data, configs)
 
     const endTime = Date.now()
 
@@ -69,14 +68,14 @@ function App() {
   async function useWebAssembly(data: Uint8ClampedArray) {
     const time = Date.now()
 
-    const colors = await getImagePalette(data, configs.len, configs.algorithm)
+    const colors = await mmcq(data, { ...configs, useWebAssembly: true })
 
     const endTime = Date.now()
 
     setResult((result) => ({
       ...result,
       webAssembly: {
-        colors: colors.map((n) => Color.formHex(n)),
+        colors: colors,
         time: endTime - time,
       },
     }))
