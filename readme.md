@@ -21,12 +21,15 @@ npm install mmcq.js
 ## 用法 (Usage)
 
 ```ts
-import { getPalette } from 'mmcq.js'
+import { mmcq } from 'mmcq.js'
 const img = document.getElementById('img-id')
 
 const data = getImageData(img, 1)
 
-const colors = getPalette(data, 8, 8)
+const colors = getPalette(data, {
+  count: 8,
+  algorithm: 8,
+})
 
 colors.forEach((color) => console.log(color))
 
