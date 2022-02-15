@@ -43,8 +43,6 @@ function App() {
 
     useNative(data)
 
-    console.log('---------')
-
     await useWebAssembly(data)
   }
 

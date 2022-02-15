@@ -48,15 +48,6 @@ export class MMCQ {
       this.volumes = newVolumes.sort((a, b) => b.size - a.size)
     }
 
-    for (const vol of this.volumes) {
-      console.log(
-        '[ts] volumes size:',
-        vol.size,
-        'main color:',
-        vol.mainColor(),
-      )
-    }
-
     const avgColors = this.volumes.slice(0, length).map((v) => v.mainColor())
 
     return this.getSimilarPalette(avgColors)

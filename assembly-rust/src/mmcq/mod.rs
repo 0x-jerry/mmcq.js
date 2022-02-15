@@ -1,8 +1,6 @@
 pub mod color;
 pub mod volume;
 
-use crate::log;
-
 pub use color::Color;
 pub use volume::Pixel;
 pub use volume::Volume;
@@ -41,12 +39,6 @@ pub fn get_palette(colors: &[Color], color_count: u8, algorithm: u8) -> Vec<Colo
   let mut main_colors = vec![];
 
   for volume in volumes {
-    log(&format!(
-      "[rust] volume size: {}, color: {:?}",
-      volume.size,
-      volume.get_main_color()
-    ));
-
     if main_colors.len() < color_count as usize {
       main_colors.push(volume.get_main_color());
     }
