@@ -22,17 +22,22 @@ npm install mmcq.js
 
 ```ts
 import { mmcq } from 'mmcq.js'
-const img = document.getElementById('img-id')
 
-const data = getImageData(img, 1)
+main()
 
-const colors = getPalette(data, {
-  count: 8,
-  algorithm: 8,
-})
+async function main() {
+  const img = document.getElementById('img-id') as HTMLImageElement
+  const data = getImageData(img, 1)
 
-colors.forEach((color) => console.log(color))
+  const colors = await mmcq(data, {
+    count: 8,
+    algorithm: 8,
+  })
 
+  colors.forEach((color) => console.log(color.rgb))
+}
+
+// --------- utils
 function getImageData(
   image: HTMLImageElement,
   /**
@@ -40,6 +45,16 @@ function getImageData(
    **/
   imageQuality: number,
 ): Uint8ClampedArray {
+  const sharedCanvasId = 'xxxxxxx'
+
+  const canvas = (document.getElementById(sharedCanvasId) ||
+    document.createElement('canvas')) as HTMLCanvasElement
+
+  canvas.id = sharedCanvasId
+  canvas.style.display = 'none'
+
+  document.body.append(canvas)
+
   canvas.width = image.naturalWidth * imageQuality
   canvas.height = image.naturalHeight * imageQuality
   canvas.style.width = canvas.width + 'px'
