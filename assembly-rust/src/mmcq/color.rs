@@ -36,19 +36,11 @@ impl Color {
     return (r << (2 * bit)) + (g << (1 * bit)) + b;
   }
 
-  pub fn delta(&self, color: &Color) -> i32 {
-    let r = (color.r() as i32 - self.r() as i32).pow(2);
-    let g = (color.g() as i32 - self.g() as i32).pow(2);
-    let b = (color.b() as i32 - self.b() as i32).pow(2);
-
-    return r + g + b;
-  }
-
-  pub fn delta_arr(&self, color: &[f32; 3]) -> f32 {
-    let mut delta: f32 = 0.0;
+  pub fn delta_by_arr(&self, color: &[f64; 3]) -> f64 {
+    let mut delta: f64 = 0.0;
 
     for i in 0..3 {
-      delta += (self.get(i) as f32 - color[i]).powf(2.0)
+      delta += (self.get(i) as f64 - color[i]).powf(2.0)
     }
 
     delta

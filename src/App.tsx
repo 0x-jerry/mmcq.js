@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { mmcq, Color } from '../core'
 import { getImageData } from './utils'
-import { getImagePalette } from './assembly/rust'
 
 interface MMCQResult {
   time: number
@@ -91,8 +90,7 @@ function App() {
   return (
     <div className="app">
       <h1 className="title">
-        <a href="https://github.com/0x-jerry/mmcq.js">MMCQ.JS</a>
-        Demo
+        <a href="https://github.com/0x-jerry/mmcq.js">MMCQ.JS</a> Demo
       </h1>
 
       <div className="settings">

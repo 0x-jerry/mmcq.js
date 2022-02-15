@@ -87,9 +87,9 @@ export class ColorVolume {
     delta.b = max.b - min.b
 
     dimension =
-      delta.r > delta.g && delta.r > delta.b
+      delta.r >= delta.g && delta.r >= delta.b
         ? 'r'
-        : delta.g > delta.r && delta.g > delta.b
+        : delta.g >= delta.r && delta.g >= delta.b
         ? 'g'
         : 'b'
 

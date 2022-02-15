@@ -1,5 +1,4 @@
 use super::color::Color;
-use crate::log;
 
 use std::collections::HashMap;
 
@@ -43,25 +42,7 @@ impl Volume {
     volume
   }
 
-  pub fn get_max_count_color(&self) -> Color {
-    let mut color = Color::new(0, 0, 0);
-    if self.size == 0 {
-      return color;
-    }
-
-    let mut size = 0;
-
-    for pixel in self.pixels.values() {
-      if pixel.count > size {
-        size = pixel.count;
-        color = pixel.color;
-      }
-    }
-
-    color
-  }
-
-  pub fn get_main_color(&self) -> [f32; 3] {
+  pub fn get_main_color(&self) -> [f64; 3] {
     let mut avg = [0.0, 0.0, 0.0];
 
     if self.size == 0 {
@@ -70,36 +51,15 @@ impl Volume {
 
     for pixel in self.pixels.values() {
       for i in 0..=2 {
-        avg[i] += pixel.color.get(i) as f32 * pixel.count as f32;
+        avg[i] += pixel.color.get(i) as f64 * pixel.count as f64;
       }
     }
 
     for i in 0..=2 {
-      avg[i] = avg[i] / self.size as f32;
+      avg[i] = avg[i] / self.size as f64;
     }
 
     avg
-  }
-
-  pub fn get_similar_color(&self) -> Color {
-    let color = self.get_main_color();
-    let mut similar_color = Color::new(0, 0, 0);
-    let mut delta: f32 = 255f32.powf(2.0) * 3.0;
-
-    for pixel in self.pixels.values() {
-      let dr = (pixel.color.r() as f32 - color[0]).powf(2.0);
-      let dg = (pixel.color.g() as f32 - color[1]).powf(2.0);
-      let db = (pixel.color.b() as f32 - color[2]).powf(2.0);
-
-      let d = dr + dg + db;
-
-      if d < delta {
-        similar_color = pixel.color;
-        delta = d;
-      }
-    }
-
-    similar_color
   }
 
   pub fn split(&self, bit: u8) -> (Volume, Volume) {
@@ -118,7 +78,7 @@ impl Volume {
     for &pixel in self.pixels.values() {
       let idx = pixel.color.compose(bit);
 
-      let next = if pixel.color.get(dimension) as f32 > middle {
+      let next = if pixel.color.get(dimension) as f64 > middle {
         &mut right
       } else {
         &mut left
@@ -138,7 +98,7 @@ impl Volume {
   }
 }
 
-fn get_max_dimension(volume: &Volume) -> (usize, f32) {
+fn get_max_dimension(volume: &Volume) -> (usize, f64) {
   if volume.pixels.len() == 0 {
     return (0, 0.0);
   }
@@ -166,7 +126,7 @@ fn get_max_dimension(volume: &Volume) -> (usize, f32) {
     2
   };
 
-  let mid = (max[dimension] as f32 + min[dimension] as f32) / 2.0;
+  let mid = (max[dimension] as f64 + min[dimension] as f64) / 2.0;
 
   (dimension, mid)
 }

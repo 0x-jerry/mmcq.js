@@ -56,14 +56,14 @@ pub fn get_palette(colors: &[Color], color_count: u8, algorithm: u8) -> Vec<Colo
     .iter()
     .map(|_| SimilarColor {
       color: Color::new(0, 0, 0),
-      delta: 255f32.powf(2.0) * 3.0,
+      delta: 255f64.powf(2.0) * 3.0,
     })
     .collect();
 
   for &color in colors {
     for (idx, s_color) in similar_colors.iter_mut().enumerate() {
       if let Some(main_color) = main_colors.get(idx) {
-        let delta = color.delta_arr(&main_color);
+        let delta = color.delta_by_arr(&main_color);
 
         if delta < s_color.delta {
           s_color.color = color;
@@ -77,6 +77,6 @@ pub fn get_palette(colors: &[Color], color_count: u8, algorithm: u8) -> Vec<Colo
 }
 
 struct SimilarColor {
-  delta: f32,
+  delta: f64,
   color: Color,
 }
