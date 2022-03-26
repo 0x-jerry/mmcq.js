@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
-import { mmcq, Color } from '../core'
+import { mmcq, Color, preloadWasm } from '../core'
 import { getImageData } from './utils'
+
+preloadWasm()
 
 interface MMCQResult {
   time: number

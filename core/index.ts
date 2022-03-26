@@ -1,5 +1,6 @@
 import { Color } from './Color'
 import { MMCQ } from './MMCQ'
+export { preloadWasm } from './rust'
 
 export { Color }
 
@@ -15,10 +16,16 @@ export interface MMCQOption {
    */
   algorithm: number
   /**
-   * not support yet!
+   * use Wasm, you also need specify the wasm path, see {@link MMCQOption.wasmPath }
    * @default false
    */
   useWebAssembly: boolean
+  /**
+   * Wasm path, ex. `/node_modules/mmcq.js/dist/mmcq_bg.wasm`
+   *
+   * If you have some issue with build processing, maybe you should copy `/node_modules/mmcq.js/dist/mmcq_bg.wasm` to assets directory, then specify the path.
+   */
+  wasmPath?: string
 }
 
 export async function mmcq(
