@@ -2,7 +2,7 @@
 
 > `MMCQ (modified median cut quantization)`, the name is from Leptonica library (http://www.leptonica.com/).
 
-提取颜色主色调 (Extract prominent colors from image)
+提取颜色主色调，支持 WebAssembly (Extract prominent colors from image, support WebAssembly)
 
 仅 300 行不到的代码，且零依赖。(< 300 lines source code, zero dependency)
 
@@ -32,6 +32,9 @@ async function main() {
   const colors = await mmcq(data, {
     count: 8,
     algorithm: 8,
+    useWebAssembly: true,
+    // You maybe need to copy `/node_modules/mmcq.js/dist/mmcq_bg.wasm` to somewhere.
+    wasmPath: 'path/to/mmcq_bg.wasm',
   })
 
   colors.forEach((color) => console.log(color.rgb))
