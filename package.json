@@ -15,7 +15,8 @@
     "dev:wasm": "npm run wasm:dev && vite",
     "wasm": "wasm-pack build ./assembly-rust --target web",
     "wasm:dev": "wasm-pack build ./assembly-rust --target web --dev",
-    "build": "tsup core/index.ts --dts --clean",
+    "build": "npm run build:lib && cp assembly-rust/pkg/mmcq_bg.wasm dist/mmcq_bg.wasm",
+    "build:lib": "tsup core/index.ts --dts --clean",
     "build:docs": "vite build",
     "release": "x-release"
   },
@@ -28,12 +29,12 @@
   },
   "devDependencies": {
     "@0x-jerry/x-release": "^0.3.2",
-    "@types/node": "^17.0.15",
-    "@types/react": "^17.0.39",
-    "@types/react-dom": "^17.0.11",
-    "@vitejs/plugin-react": "^1.1.4",
-    "tsup": "^5.11.13",
-    "typescript": "^4.5.5",
-    "vite": "^2.7.13"
+    "@types/node": "^17.0.23",
+    "@types/react": "^17.0.43",
+    "@types/react-dom": "^17.0.14",
+    "@vitejs/plugin-react": "^1.2.0",
+    "tsup": "^5.12.1",
+    "typescript": "^4.6.3",
+    "vite": "^2.8.6"
   }
 }
