@@ -26,15 +26,16 @@ body {
 
 .imgs .img {
   width: calc(33% - 20px);
-  overflow: hidden;
+  height: 240px;
   margin: 10px;
   border-radius: 5px;
 }
 
 .imgs .img img {
+  display: inline-block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: scale-down;
   object-position: center;
   transition: all ease 0.4s;
   cursor: pointer;
@@ -79,6 +80,10 @@ img:hover {
 
 .setting input {
   margin: 0 10px;
+}
+
+.setting label {
+  cursor: pointer;
 }
 
 .divider {

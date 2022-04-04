@@ -18,6 +18,8 @@ function App() {
     algorithm: 5,
   })
 
+  const [file, setFile] = useState<File | null>(null)
+
   const defaultResult: Record<string, MMCQResult> = {
     native: {
       time: 0,
@@ -87,6 +89,25 @@ function App() {
     setConfigs({ ...configs, [type]: +e.target.value })
   }
 
+  function onFileChanged(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.item(0)
+    if (!file) return
+    setFile(file)
+    event.target.value = ''
+
+    const img = new Image()
+
+    img.onload = () => {
+      const data = getImageData(img, configs.image)
+
+      useNative(data)
+
+      useWebAssembly(data)
+    }
+
+    img.src = URL.createObjectURL(file)
+  }
+
   return (
     <div className="app">
       <h1 className="title">
@@ -119,6 +140,17 @@ function App() {
           />
           {configs.image.toFixed(1)}
         </span>
+        <span className="setting">
+          <label>
+            <span>Choose Image</span>
+            <input
+              hidden
+              type="file"
+              onChange={onFileChanged}
+              accept=".jpeg,.jpg,.png,.webp"
+            />
+          </label>
+        </span>
       </div>
 
       <div className="divider" />
@@ -138,6 +170,15 @@ function App() {
 
       <div className="divider" />
       <div className="imgs">
+        {file && (
+          <div className="img">
+            <img
+              src={URL.createObjectURL(file)}
+              onClick={handleImageClick}
+            ></img>
+          </div>
+        )}
+
         {images.map((p) => (
           <div className="img" key={p}>
             <img src={p} onClick={handleImageClick} />
