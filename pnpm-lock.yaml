@@ -6,8 +6,8 @@ specifiers:
   '@types/react': ^17.0.43
   '@types/react-dom': ^17.0.14
   '@vitejs/plugin-react': ^1.2.0
-  react: ^17.0.2
-  react-dom: ^17.0.2
+  react: ^18.0.0
+  react-dom: ^18.0.0
   tsup: ^6.0.0
   typescript: ^4.6.3
   vite: ^2.8.6
@@ -18,8 +18,8 @@ devDependencies:
   '@types/react': registry.npmmirror.com/@types/react/17.0.43
   '@types/react-dom': registry.npmmirror.com/@types/react-dom/17.0.14
   '@vitejs/plugin-react': registry.npmmirror.com/@vitejs/plugin-react/1.2.0
-  react: registry.npmmirror.com/react/17.0.2
-  react-dom: registry.npmmirror.com/react-dom/17.0.2_react@17.0.2
+  react: registry.npmmirror.com/react/18.2.0
+  react-dom: registry.npmmirror.com/react-dom/18.2.0_react@18.2.0
   tsup: registry.npmmirror.com/tsup/6.1.2_typescript@4.6.3
   typescript: registry.npmmirror.com/typescript/4.6.3
   vite: registry.npmmirror.com/vite/2.8.6
@@ -1520,18 +1520,17 @@ packages:
     version: 1.2.3
     dev: true
 
-  registry.npmmirror.com/react-dom/17.0.2_react@17.0.2:
-    resolution: {integrity: sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/react-dom/-/react-dom-17.0.2.tgz}
-    id: registry.npmmirror.com/react-dom/17.0.2
+  registry.npmmirror.com/react-dom/18.2.0_react@18.2.0:
+    resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/react-dom/-/react-dom-18.2.0.tgz}
+    id: registry.npmmirror.com/react-dom/18.2.0
     name: react-dom
-    version: 17.0.2
+    version: 18.2.0
     peerDependencies:
-      react: 17.0.2
+      react: ^18.2.0
     dependencies:
       loose-envify: registry.npmmirror.com/loose-envify/1.4.0
-      object-assign: registry.npmmirror.com/object-assign/4.1.1
-      react: registry.npmmirror.com/react/17.0.2
-      scheduler: registry.npmmirror.com/scheduler/0.20.2
+      react: registry.npmmirror.com/react/18.2.0
+      scheduler: registry.npmmirror.com/scheduler/0.23.0
     dev: true
 
   registry.npmmirror.com/react-refresh/0.11.0:
@@ -1541,14 +1540,13 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  registry.npmmirror.com/react/17.0.2:
-    resolution: {integrity: sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/react/-/react-17.0.2.tgz}
+  registry.npmmirror.com/react/18.2.0:
+    resolution: {integrity: sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/react/-/react-18.2.0.tgz}
     name: react
-    version: 17.0.2
+    version: 18.2.0
     engines: {node: '>=0.10.0'}
     dependencies:
       loose-envify: registry.npmmirror.com/loose-envify/1.4.0
-      object-assign: registry.npmmirror.com/object-assign/4.1.1
     dev: true
 
   registry.npmmirror.com/readdirp/3.6.0:
@@ -1619,13 +1617,12 @@ packages:
     version: 5.1.2
     dev: true
 
-  registry.npmmirror.com/scheduler/0.20.2:
-    resolution: {integrity: sha512-2eWfGgAqqWFGqtdMmcL5zCMK1U8KlXv8SQFGglL3CEtd0aDVDWgeF/YoCmvln55m5zSk3J/20hTaSBeSObsQDQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/scheduler/-/scheduler-0.20.2.tgz}
+  registry.npmmirror.com/scheduler/0.23.0:
+    resolution: {integrity: sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/scheduler/-/scheduler-0.23.0.tgz}
     name: scheduler
-    version: 0.20.2
+    version: 0.23.0
     dependencies:
       loose-envify: registry.npmmirror.com/loose-envify/1.4.0
-      object-assign: registry.npmmirror.com/object-assign/4.1.1
     dev: true
 
   registry.npmmirror.com/semver/6.3.0:
