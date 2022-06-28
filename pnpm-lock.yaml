@@ -4,7 +4,7 @@ specifiers:
   '@0x-jerry/x-release': ^0.3.2
   '@types/node': ^17.0.23
   '@types/react': ^17.0.43
-  '@types/react-dom': ^17.0.14
+  '@types/react-dom': ^18.0.0
   '@vitejs/plugin-react': ^1.2.0
   react: ^17.0.2
   react-dom: ^17.0.2
@@ -16,7 +16,7 @@ devDependencies:
   '@0x-jerry/x-release': registry.npmmirror.com/@0x-jerry/x-release/0.3.2
   '@types/node': registry.npmmirror.com/@types/node/17.0.23
   '@types/react': registry.npmmirror.com/@types/react/17.0.43
-  '@types/react-dom': registry.npmmirror.com/@types/react-dom/17.0.14
+  '@types/react-dom': registry.npmmirror.com/@types/react-dom/18.0.5
   '@vitejs/plugin-react': registry.npmmirror.com/@vitejs/plugin-react/1.2.0
   react: registry.npmmirror.com/react/17.0.2
   react-dom: registry.npmmirror.com/react-dom/17.0.2_react@17.0.2
@@ -287,6 +287,8 @@ packages:
     version: 7.17.8
     engines: {node: '>=6.0.0'}
     hasBin: true
+    dependencies:
+      '@babel/types': registry.npmmirror.com/@babel/types/7.17.0
     dev: true
 
   registry.npmmirror.com/@babel/plugin-syntax-jsx/7.16.7_@babel+core@7.17.8:
@@ -460,10 +462,10 @@ packages:
     version: 15.7.4
     dev: true
 
-  registry.npmmirror.com/@types/react-dom/17.0.14:
-    resolution: {integrity: sha512-H03xwEP1oXmSfl3iobtmQ/2dHF5aBHr8aUMwyGZya6OW45G+xtdzmq6HkncefiBt5JU8DVyaWl/nWZbjZCnzAQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/react-dom/-/react-dom-17.0.14.tgz}
+  registry.npmmirror.com/@types/react-dom/18.0.5:
+    resolution: {integrity: sha512-OWPWTUrY/NIrjsAPkAk1wW9LZeIjSvkXRhclsFO8CZcZGCOg2G0YZy4ft+rOyYxy8B7ui5iZzi9OkDebZ7/QSA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/react-dom/-/react-dom-18.0.5.tgz}
     name: '@types/react-dom'
-    version: 17.0.14
+    version: 18.0.5
     dependencies:
       '@types/react': registry.npmmirror.com/@types/react/17.0.43
     dev: true
