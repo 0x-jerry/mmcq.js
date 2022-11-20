@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@0x-jerry/x-release': ^0.3.2
-  '@types/node': ^17.0.23
+  '@types/node': ^18.0.0
   '@types/react': ^18.0.0
   '@types/react-dom': ^18.0.0
   '@vitejs/plugin-react': ^2.0.0
@@ -14,7 +14,7 @@ specifiers:
 
 devDependencies:
   '@0x-jerry/x-release': registry.npmmirror.com/@0x-jerry/x-release/0.3.2
-  '@types/node': registry.npmmirror.com/@types/node/17.0.23
+  '@types/node': registry.npmmirror.com/@types/node/18.11.9
   '@types/react': registry.npmmirror.com/@types/react/18.0.14
   '@types/react-dom': registry.npmmirror.com/@types/react-dom/18.0.5
   '@vitejs/plugin-react': registry.npmmirror.com/@vitejs/plugin-react/2.0.0_vite@3.0.0
@@ -451,10 +451,10 @@ packages:
       fastq: registry.npmmirror.com/fastq/1.13.0
     dev: true
 
-  registry.npmmirror.com/@types/node/17.0.23:
-    resolution: {integrity: sha512-UxDxWn7dl97rKVeVS61vErvw086aCYhDLyvRQZ5Rk65rZKepaFdm53GeqXaKBuOhED4e9uWq34IC3TdSdJJ2Gw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/node/-/node-17.0.23.tgz}
+  registry.npmmirror.com/@types/node/18.11.9:
+    resolution: {integrity: sha512-CRpX21/kGdzjOpFsZSkcrXMGIBWMGNIHXXBVFSH+ggkftxg+XYP20TESbh+zFvFj3EQOl5byk0HTRn1IL6hbqg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/node/-/node-18.11.9.tgz}
     name: '@types/node'
-    version: 17.0.23
+    version: 18.11.9
     dev: true
 
   registry.npmmirror.com/@types/prop-types/15.7.4:
