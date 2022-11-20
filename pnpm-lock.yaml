@@ -2,7 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@0x-jerry/x-release': ^0.3.2
-  '@types/node': ^17.0.23
+  '@types/node': ^18.0.0
   '@types/react': ^18.0.0
   '@types/react-dom': ^18.0.0
   '@vitejs/plugin-react': ^2.0.0
@@ -14,10 +14,10 @@ specifiers:
 
 devDependencies:
   '@0x-jerry/x-release': registry.npmmirror.com/@0x-jerry/x-release/0.3.2
-  '@types/node': registry.npmmirror.com/@types/node/17.0.23
+  '@types/node': registry.npmmirror.com/@types/node/18.11.9
   '@types/react': registry.npmmirror.com/@types/react/18.0.14
   '@types/react-dom': registry.npmmirror.com/@types/react-dom/18.0.5
-  '@vitejs/plugin-react': registry.npmmirror.com/@vitejs/plugin-react/2.0.0_vite@2.8.6
+  '@vitejs/plugin-react': registry.npmmirror.com/@vitejs/plugin-react/2.0.0_vite@3.0.0
   react: registry.npmmirror.com/react/18.2.0
   react-dom: registry.npmmirror.com/react-dom/18.2.0_react@18.2.0
   tsup: registry.npmmirror.com/tsup/6.1.2_typescript@4.6.3
@@ -451,10 +451,10 @@ packages:
       fastq: registry.npmmirror.com/fastq/1.13.0
     dev: true
 
-  registry.npmmirror.com/@types/node/17.0.23:
-    resolution: {integrity: sha512-UxDxWn7dl97rKVeVS61vErvw086aCYhDLyvRQZ5Rk65rZKepaFdm53GeqXaKBuOhED4e9uWq34IC3TdSdJJ2Gw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/node/-/node-17.0.23.tgz}
+  registry.npmmirror.com/@types/node/18.11.9:
+    resolution: {integrity: sha512-CRpX21/kGdzjOpFsZSkcrXMGIBWMGNIHXXBVFSH+ggkftxg+XYP20TESbh+zFvFj3EQOl5byk0HTRn1IL6hbqg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/node/-/node-18.11.9.tgz}
     name: '@types/node'
-    version: 17.0.23
+    version: 18.11.9
     dev: true
 
   registry.npmmirror.com/@types/prop-types/15.7.4:
@@ -493,7 +493,7 @@ packages:
     version: 2.1.0
     dev: true
 
-  registry.npmmirror.com/@vitejs/plugin-react/2.0.0_vite@2.8.6:
+  registry.npmmirror.com/@vitejs/plugin-react/2.0.0_vite@3.0.0:
     resolution: {integrity: sha512-zHkRR+X4zqEPNBbKV2FvWSxK7Q6crjMBVIAYroSU8Nbb4M3E5x4qOiLoqJBHtXgr27kfednXjkwr3lr8jS6Wrw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vitejs/plugin-react/-/plugin-react-2.0.0.tgz}
     id: registry.npmmirror.com/@vitejs/plugin-react/2.0.0
     name: '@vitejs/plugin-react'
@@ -509,7 +509,7 @@ packages:
       '@babel/plugin-transform-react-jsx-source': registry.npmmirror.com/@babel/plugin-transform-react-jsx-source/7.18.6_@babel+core@7.18.6
       magic-string: registry.npmmirror.com/magic-string/0.26.2
       react-refresh: registry.npmmirror.com/react-refresh/0.14.0
-      vite: registry.npmmirror.com/vite/2.8.6
+      vite: registry.npmmirror.com/vite/3.0.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1437,14 +1437,6 @@ packages:
       binary-extensions: registry.npmmirror.com/binary-extensions/2.2.0
     dev: true
 
-  registry.npmmirror.com/is-core-module/2.8.1:
-    resolution: {integrity: sha512-SdNCUs284hr40hFTFP6l0IfZ/RSrMXF3qgoRHd3/79unUTvrFO/JoXwkGm+5J/Oe3E/b5GsnG330uUNgRpu1PA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/is-core-module/-/is-core-module-2.8.1.tgz}
-    name: is-core-module
-    version: 2.8.1
-    dependencies:
-      has: registry.npmmirror.com/has/1.0.3
-    dev: true
-
   registry.npmmirror.com/is-core-module/2.9.0:
     resolution: {integrity: sha512-+5FPy5PnwmO3lvfMb0AsoPaBG+5KHUI0wYFXOtYPnVVVspTFUuMZNfNaNVRt3FZadstu2c8x23vykRW/NBoU6A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/is-core-module/-/is-core-module-2.9.0.tgz}
     name: is-core-module
@@ -1832,17 +1824,6 @@ packages:
     name: resolve-from
     version: 5.0.0
     engines: {node: '>=8'}
-    dev: true
-
-  registry.npmmirror.com/resolve/1.22.0:
-    resolution: {integrity: sha512-Hhtrw0nLeSrFQ7phPp4OOcVjLPIeMnRlr5mcnVuMe7M/7eBn98A3hmFRLoFo3DLZkivSYwhRUJTyPyWAk56WLw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/resolve/-/resolve-1.22.0.tgz}
-    name: resolve
-    version: 1.22.0
-    hasBin: true
-    dependencies:
-      is-core-module: registry.npmmirror.com/is-core-module/2.8.1
-      path-parse: registry.npmmirror.com/path-parse/1.0.7
-      supports-preserve-symlinks-flag: registry.npmmirror.com/supports-preserve-symlinks-flag/1.0.0
     dev: true
 
   registry.npmmirror.com/resolve/1.22.1:
