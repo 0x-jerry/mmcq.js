@@ -116,7 +116,7 @@ function App() {
 
       <div className="settings">
         <span className="setting">
-          algorithm complexity:
+          color depth:
           <input
             type="range"
             style={{ width: '200px' }}

@@ -16,7 +16,7 @@ export async function mmcqjs(
 
   await p
 
-  const res = await mmcq(imgData, opt.count, opt.algorithm)
+  const res = await mmcq(imgData, opt.count, opt.colorDepth)
 
   return res
 }

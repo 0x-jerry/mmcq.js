@@ -76,4 +76,24 @@ function getImageData(
 }
 ```
 
+## Development
+
+install wasm-pack: https://rustwasm.github.io/wasm-pack/installer/
+
+1. build wasm
+
+```sh
+pnpm run wasm
+```
+
+2. start dev server
+
+```sh
+pnpm i
+
+pnpm run dev
+# or
+pnpm run dev:wasm
+```
+
 [mmcq]: https://www.wikiwand.com/en/Median_cut
