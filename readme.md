@@ -18,6 +18,12 @@ yarn add mmcq.js
 npm install mmcq.js
 ```
 
+或者(Or)
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/mmcq.js@latest/dist/index.global.js"></script>
+```
+
 ## 用法 (Usage)
 
 ```ts
@@ -97,3 +103,7 @@ pnpm run dev:wasm
 ```
 
 [mmcq]: https://www.wikiwand.com/en/Median_cut
+
+## Contribute
+
+All kinds of contributions are welcome!
