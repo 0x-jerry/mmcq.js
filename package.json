@@ -16,9 +16,22 @@
     "wasm": "wasm-pack build ./assembly-rust --target web",
     "wasm:dev": "wasm-pack build ./assembly-rust --target web --dev",
     "build": "npm run build:lib && cp assembly-rust/pkg/mmcq_bg.wasm dist/mmcq_bg.wasm",
-    "build:lib": "tsup core/index.ts --dts --clean --format cjs,esm,iife",
+    "build:lib": "tsup",
     "build:docs": "vite build",
     "release": "x-release"
+  },
+  "tsup": {
+    "entry": [
+      "core/index.ts"
+    ],
+    "format": [
+      "cjs",
+      "esm",
+      "iife"
+    ],
+    "dts": true,
+    "clean": true,
+    "globalName": "MMCQJS"
   },
   "files": [
     "dist"

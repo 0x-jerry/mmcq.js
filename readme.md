@@ -22,6 +22,9 @@ npm install mmcq.js
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/mmcq.js@latest/dist/index.global.js"></script>
+<script>
+  consol.log(window.MMCQJS)
+</script>
 ```
 
 ## 用法 (Usage)
