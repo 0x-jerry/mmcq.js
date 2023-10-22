@@ -36,9 +36,6 @@ jobs:
 
           key: ${{ runner.os }}-node${{ matrix.node }}-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**/Cargo.toml') }}
 
-      - name: Install wasm-pack
-        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-
       - run: pnpm i
       - run: pnpm run wasm
       - run: pnpm run build:docs
