@@ -1,5 +1,8 @@
 import './style.css'
-import { render } from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { app } from './App'
 
-render(app(), document.getElementById('app')!)
+const container = document.getElementById('app')
+const root = createRoot(container!)
+
+root.render(app())

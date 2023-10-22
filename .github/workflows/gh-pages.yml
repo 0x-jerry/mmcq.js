@@ -9,12 +9,16 @@ jobs:
   deploy:
     strategy:
       matrix:
-        os: ["ubuntu-20.04"]
-        node: [16]
+        os: ['ubuntu-latest']
+        node: [18]
 
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
 
       - name: Use Node.js ${{ matrix.node }}
         uses: actions/setup-node@v3
@@ -34,9 +38,6 @@ jobs:
 
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-
-      - name: Install pnpm
-        run: curl -f https://get.pnpm.io/v6.js | node - add --global pnpm@6
 
       - run: pnpm i
       - run: pnpm run wasm
