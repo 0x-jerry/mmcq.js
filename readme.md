@@ -42,8 +42,6 @@ async function main() {
     count: 8,
     algorithm: 8,
     useWebAssembly: true,
-    // You maybe need to copy `/node_modules/mmcq.js/dist/mmcq_bg.wasm` to somewhere.
-    wasmPath: 'path/to/mmcq_bg.wasm',
   })
 
   colors.forEach((color) => console.log(color.rgb))
