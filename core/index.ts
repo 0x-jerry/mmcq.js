@@ -1,6 +1,7 @@
 import { Color } from './Color'
 import { MMCQ } from './MMCQ'
 export { preloadWasm } from './rust'
+import * as rust from './rust'
 
 export { Color }
 
@@ -49,8 +50,7 @@ export async function mmcq(
   opt.colorDepth = opt.algorithm || opt.colorDepth
 
   if (opt.useWebAssembly) {
-    const r = await import('./rust')
-    const colors = await r.mmcqjs(data, opt)
+    const colors = await rust.mmcqjs(data, opt)
     return colors.map((n) => Color.formHex(n))
   } else {
     return new MMCQ(data, opt.colorDepth).getPalette(opt.count)
