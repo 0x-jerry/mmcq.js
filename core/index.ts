@@ -10,28 +10,25 @@ export interface MMCQOption {
    * @default 8
    */
   count: number
+
   /**
    * 1 - 8
    * @default 5
    * @deprecated Replace with the `colorDepth` option instead.
    */
   algorithm?: number
+
   /**
    * 1 - 8
    * @default 5
    */
   colorDepth: number
+
   /**
-   * use Wasm, you also need specify the wasm path, see {@link MMCQOption.wasmPath }
+   * use WebAssembly
    * @default false
    */
   useWebAssembly: boolean
-  /**
-   * Wasm path, ex. `/node_modules/mmcq.js/dist/mmcq_bg.wasm`
-   *
-   * If you have some issue with build processing, maybe you should copy `/node_modules/mmcq.js/dist/mmcq_bg.wasm` to assets directory, then specify the path.
-   */
-  wasmPath?: string
 }
 
 export async function mmcq(

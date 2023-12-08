@@ -15,23 +15,10 @@
     "dev:wasm": "npm run wasm:dev && vite",
     "wasm": "wasm-pack build ./assembly-rust --target web",
     "wasm:dev": "wasm-pack build ./assembly-rust --target web --dev",
-    "build": "npm run build:lib && cp assembly-rust/pkg/mmcq_bg.wasm dist/mmcq_bg.wasm",
+    "build": "npm run build:lib",
     "build:lib": "tsup",
     "build:docs": "vite build",
     "release": "x-release"
-  },
-  "tsup": {
-    "entry": [
-      "core/index.ts"
-    ],
-    "format": [
-      "cjs",
-      "esm",
-      "iife"
-    ],
-    "dts": true,
-    "clean": true,
-    "globalName": "MMCQJS"
   },
   "files": [
     "dist"
@@ -42,6 +29,7 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@vitejs/plugin-react": "^4.0.0",
+    "esbuild": "^0.18.20",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "tsup": "^7.0.0",

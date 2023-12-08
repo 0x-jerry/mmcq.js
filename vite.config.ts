@@ -9,5 +9,8 @@ export default defineConfig(() => {
     build: {
       outDir: 'docs',
     },
+    define: {
+      __VITE__: JSON.stringify(true),
+    },
   }
 })
