@@ -26,16 +26,16 @@
   ],
   "devDependencies": {
     "@0x-jerry/x-release": "^0.4.0",
-    "@types/node": "^18.0.0",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
-    "@vitejs/plugin-react": "^4.0.0",
-    "esbuild": "^0.18.20",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "tsup": "^7.0.0",
-    "typescript": "^5.0.0",
-    "vite": "^4.0.0",
+    "@types/node": "^20.10.4",
+    "@types/react": "^18.2.42",
+    "@types/react-dom": "^18.2.17",
+    "@vitejs/plugin-react": "^4.2.1",
+    "esbuild": "^0.19.8",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.7",
     "wasm-pack": "^0.12.1"
   }
 }
