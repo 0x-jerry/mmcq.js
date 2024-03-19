@@ -1,5 +1,5 @@
 import { defineConfig } from 'tsup'
-import wasmPlugin from './build/wasm'
+import importBin from 'unplugin-import-bin/esbuild'
 
 export default defineConfig({
   entry: ['core/index.ts'],
@@ -7,9 +7,6 @@ export default defineConfig({
   dts: true,
   clean: true,
   globalName: 'MMCQJS',
-  esbuildPlugins: [wasmPlugin()],
-  define: {
-    __VITE__: JSON.stringify(false),
-  },
+  esbuildPlugins: [importBin()],
   treeshake: 'recommended',
 })
