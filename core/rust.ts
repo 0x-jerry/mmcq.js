@@ -25,9 +25,9 @@ export async function mmcqjs(
   imgData: Uint8ClampedArray,
   opt: MMCQOption,
 ): Promise<number[]> {
-  if (!p) p = preloadWasm()
-
-  await p
+  if (opt.useWebAssembly && !p) {
+    p = await preloadWasm()
+  }
 
   const res = await mmcq(imgData, opt.count, opt.colorDepth)
 
