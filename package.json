@@ -14,29 +14,30 @@
   "scripts": {
     "dev": "vite",
     "dev:wasm": "npm run wasm:dev && vite",
-    "wasm": "wasm-pack build ./assembly-rust --target web",
+    "wasm": "wasm-pack build ./assembly-rust --target web --release",
     "wasm:dev": "wasm-pack build ./assembly-rust --target web --dev",
     "build": "npm run build:lib",
     "build:lib": "tsup",
     "build:docs": "vite build",
+    "prepublishOnly": "npm run build",
     "release": "x-release"
   },
   "files": [
     "dist"
   ],
   "devDependencies": {
-    "@0x-jerry/x-release": "^0.4.0",
-    "@types/node": "^20.10.4",
-    "@types/react": "^18.2.42",
-    "@types/react-dom": "^18.2.17",
+    "@0x-jerry/x-release": "^1.0.0",
+    "@types/node": "^20.11.30",
+    "@types/react": "^18.2.67",
+    "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react": "^4.2.1",
-    "esbuild": "^0.19.8",
+    "esbuild": "^0.20.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tsup": "^8.0.1",
-    "typescript": "^5.3.3",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.2",
     "unplugin-import-bin": "^0.1.2",
-    "vite": "^5.0.7",
+    "vite": "^5.1.6",
     "wasm-pack": "^0.12.1"
   }
 }
