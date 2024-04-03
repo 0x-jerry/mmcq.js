@@ -37,7 +37,7 @@
     "tsup": "^8.0.2",
     "typescript": "^5.4.2",
     "unplugin-import-bin": "^0.1.2",
-    "vite": "^5.1.6",
+    "vite": "^5.1.7",
     "wasm-pack": "^0.12.1"
   }
 }
