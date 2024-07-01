@@ -38,6 +38,6 @@
     "typescript": "^5.4.2",
     "unplugin-import-bin": "^0.1.2",
     "vite": "^5.1.6",
-    "wasm-pack": "^0.12.1"
+    "wasm-pack": "^0.13.0"
   }
 }
