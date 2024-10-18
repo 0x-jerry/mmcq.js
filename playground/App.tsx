@@ -163,7 +163,7 @@ function App() {
             </div>
           ))}
           <div style={{ width: 100, flex: 1 }}>
-            {name}: {result.time}
+            {name}: {result.time}ms
           </div>
         </div>
       ))}
