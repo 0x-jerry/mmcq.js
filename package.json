@@ -14,8 +14,8 @@
   "scripts": {
     "dev": "vite",
     "dev:wasm": "npm run wasm:dev && vite",
-    "wasm": "wasm-pack build ./assembly-rust --target web --release",
-    "wasm:dev": "wasm-pack build ./assembly-rust --target web --dev",
+    "wasm": "wasm-pack build ./rust --target web --release",
+    "wasm:dev": "wasm-pack build ./rust --target web --dev",
     "build": "npm run build:lib",
     "build:lib": "tsup",
     "build:docs": "vite build",

@@ -2,7 +2,6 @@ pub mod color;
 pub mod volume;
 
 pub use color::Color;
-pub use volume::Pixel;
 pub use volume::Volume;
 
 pub fn get_palette(colors: &[Color], color_count: u8, algorithm: u8) -> Vec<Color> {

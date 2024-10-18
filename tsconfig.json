@@ -1,8 +1,14 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": ["vite/client"],
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
+    "types": [
+      "vite/client"
+    ],
     "allowJs": true,
     "skipLibCheck": false,
     "esModuleInterop": true,
@@ -18,5 +24,9 @@
     "jsxFactory": "h",
     "jsxFragmentFactory": "Fragment"
   },
-  "exclude": ["assembly-rust", "node_modules", "dist"]
+  "exclude": [
+    "rust",
+    "node_modules",
+    "dist"
+  ]
 }

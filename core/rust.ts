@@ -1,5 +1,5 @@
 import { MMCQOption } from './index'
-import init, { mmcq } from '../assembly-rust/pkg/mmcq'
+import init, { mmcq } from '../rust/pkg/mmcq'
 
 let initializedPromise: Promise<void> | undefined
 
