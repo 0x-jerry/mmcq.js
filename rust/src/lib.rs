@@ -4,14 +4,6 @@ use wasm_bindgen::Clamped;
 mod mmcq;
 
 #[wasm_bindgen]
-extern "C" {
-  // Use `js_namespace` here to bind `console.log(..)` instead of just
-  // `log(..)`
-  #[wasm_bindgen(js_namespace = console)]
-  fn log(s: &str);
-}
-
-#[wasm_bindgen]
 pub fn mmcq(colors: Clamped<Vec<u8>>, color_count: u8, algorithm: u8) -> Result<JsValue, JsValue> {
   let colors = convert_bytes_to_colors(&colors);
   let main_colors = mmcq::get_palette(&colors, color_count, algorithm);

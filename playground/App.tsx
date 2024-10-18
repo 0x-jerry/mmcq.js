@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { mmcq, Color, preloadWasm } from '../core'
+import { mmcq, Color, preloadWasm } from '../src'
 import { getImageData } from './utils'
 
 preloadWasm()

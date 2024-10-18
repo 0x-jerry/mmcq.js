@@ -4,7 +4,7 @@ import init, { mmcq } from '../rust/pkg/mmcq'
 let initializedPromise: Promise<void> | undefined
 
 export async function preloadWasm() {
-  initializedPromise = import('../assembly-rust/pkg/mmcq_bg.wasm?bin')
+  initializedPromise = import('../rust/pkg/mmcq_bg.wasm?bin')
     .then((buffer) => init(buffer.default))
     .then(() => undefined)
 }
