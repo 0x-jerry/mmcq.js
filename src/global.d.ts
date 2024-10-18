@@ -1,4 +1,1 @@
-declare module '*?bin' {
-  const buffer: Uint8Array
-  export default buffer
-}
+/// <reference types="unplugin-import-bin/client" />

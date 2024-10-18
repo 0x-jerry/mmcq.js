@@ -39,8 +39,8 @@ importers:
         specifier: ^5.6.3
         version: 5.6.3
       unplugin-import-bin:
-        specifier: ^0.1.2
-        version: 0.1.2(esbuild@0.24.0)(vite@5.4.9(@types/node@22.7.6))(webpack-sources@3.2.3)
+        specifier: ^0.1.3
+        version: 0.1.3(esbuild@0.24.0)(rollup@4.24.0)(vite@5.4.9(@types/node@22.7.6))(webpack-sources@3.2.3)
       vite:
         specifier: ^5.4.9
         version: 5.4.9(@types/node@22.7.6)
@@ -1514,13 +1514,13 @@ packages:
   undici-types@6.19.8:
     resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==}
 
-  unplugin-import-bin@0.1.2:
-    resolution: {integrity: sha512-xB85XfcFwoaqPuZUqSE2kyBr9VDq5am+ezxwaZvZqJI2fCEhtFl7228N/C1mCr3TldHTDyyvYE83UOoGQ7IQcA==}
+  unplugin-import-bin@0.1.3:
+    resolution: {integrity: sha512-6o5kKuCze1kQGw7Z7kNVt8qTyVl3DFeptzzRQEIwEVNM/hHTbUF8/8DxGufHQmSAr2U+wlVomTMV8rok+IFdMQ==}
     peerDependencies:
       '@nuxt/kit': ^3
       '@nuxt/schema': ^3
       esbuild: '*'
-      rollup: ^3
+      rollup: ^3 || ^4.0.0
       vite: '>=3'
       webpack: ^4 || ^5
     peerDependenciesMeta:
@@ -2884,11 +2884,12 @@ snapshots:
 
   undici-types@6.19.8: {}
 
-  unplugin-import-bin@0.1.2(esbuild@0.24.0)(vite@5.4.9(@types/node@22.7.6))(webpack-sources@3.2.3):
+  unplugin-import-bin@0.1.3(esbuild@0.24.0)(rollup@4.24.0)(vite@5.4.9(@types/node@22.7.6))(webpack-sources@3.2.3):
     dependencies:
       unplugin: 1.14.1(webpack-sources@3.2.3)
     optionalDependencies:
       esbuild: 0.24.0
+      rollup: 4.24.0
       vite: 5.4.9(@types/node@22.7.6)
     transitivePeerDependencies:
       - webpack-sources
