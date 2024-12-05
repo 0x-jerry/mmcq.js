@@ -1,0 +1,28 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - '**'
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: latest
+
+      - name: Generate Release Note
+        run: npx changelogithub --output GEN_CHANGELOG.md
+      
+      - uses: softprops/action-gh-release@v2
+        with:
+          body_path: GEN_CHANGELOG.md
